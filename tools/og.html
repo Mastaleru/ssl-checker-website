@@ -1,0 +1,359 @@
+<!doctype html>
+<!-- The link preview image (img/og-en.png, img/og-ro.png): open tools/og.html?lang=en or ?lang=ro
+     through a local server at 1200x630, light scheme, and save a screenshot. See README.md. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>SSL Checker link preview</title>
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+      html,
+      body {
+        width: 1200px;
+        height: 630px;
+        margin: 0;
+        overflow: hidden;
+        color-scheme: light;
+      }
+      .og {
+        display: none;
+        box-sizing: border-box;
+        width: 1200px;
+        height: 630px;
+        padding: 0 72px 0 80px;
+        grid-template-columns: minmax(0, 1fr) 470px;
+        align-items: center;
+        gap: 64px;
+      }
+      html[data-show='en'] .og[data-lang='en'],
+      html[data-show='ro'] .og[data-lang='ro'] {
+        display: grid;
+      }
+      .og-brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin: 0 0 30px;
+        font-size: 30px;
+        font-weight: 740;
+      }
+      .og h1 {
+        margin: 0 0 22px;
+        font-size: 54px;
+        line-height: 1.05;
+        font-weight: 760;
+        letter-spacing: -0.02em;
+      }
+      .og-tag {
+        margin: 0;
+        color: var(--ink-2);
+        font-size: 24px;
+      }
+      .og .compare {
+        box-shadow: 16px 16px 0 var(--block);
+      }
+    </style>
+    <script>
+      document.documentElement.dataset.show = new URLSearchParams(location.search).get('lang') === 'ro' ? 'ro' : 'en';
+    </script>
+  </head>
+  <body>
+    <div class="og" lang="en" data-lang="en">
+      <div class="og-text">
+        <p class="og-brand"><img src="../icon.png" width="56" height="56" alt="" />SSL Checker</p>
+        <h1>See the certificate your browser actually received</h1>
+        <p class="og-tag">See the real certificate. Catch interception.</p>
+      </div>
+      <figure class="compare">
+        <div class="verdict">
+          <svg class="shield" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M12 2.6 19.4 5.4v6.1c0 4.5-3.1 8.2-7.4 9.8-4.3-1.6-7.4-5.3-7.4-9.8V5.4L12 2.6Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linejoin="round"
+            />
+            <path
+              d="m8.7 12 2.3 2.3 4.4-4.6"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <div><p class="verdict-title">Confirmed by 2 external sources</p></div>
+        </div>
+        <ul class="witnesses">
+          <li class="witness">
+            <span class="who">Your browser</span
+            ><span class="print"
+              ><svg class="bars" viewBox="0 0 158 20" width="316" height="40" aria-hidden="true">
+                <rect x="0" y="2" width="3" height="18" rx="0.8" />
+                <rect x="5" y="17" width="3" height="3" rx="0.8" />
+                <rect x="10" y="7" width="3" height="13" rx="0.8" />
+                <rect x="15" y="4" width="3" height="16" rx="0.8" />
+                <rect x="20" y="16" width="3" height="4" rx="0.8" />
+                <rect x="25" y="10" width="3" height="10" rx="0.8" />
+                <rect x="30" y="15" width="3" height="5" rx="0.8" />
+                <rect x="35" y="15" width="3" height="5" rx="0.8" />
+                <rect x="40" y="15" width="3" height="5" rx="0.8" />
+                <rect x="45" y="8" width="3" height="12" rx="0.8" />
+                <rect x="50" y="15" width="3" height="5" rx="0.8" />
+                <rect x="55" y="7" width="3" height="13" rx="0.8" />
+                <rect x="60" y="16" width="3" height="4" rx="0.8" />
+                <rect x="65" y="5" width="3" height="15" rx="0.8" />
+                <rect x="70" y="0" width="3" height="20" rx="0.8" />
+                <rect x="75" y="16" width="3" height="4" rx="0.8" />
+                <rect x="80" y="9" width="3" height="11" rx="0.8" />
+                <rect x="85" y="6" width="3" height="14" rx="0.8" />
+                <rect x="90" y="3" width="3" height="17" rx="0.8" />
+                <rect x="95" y="11" width="3" height="9" rx="0.8" />
+                <rect x="100" y="4" width="3" height="16" rx="0.8" />
+                <rect x="105" y="5" width="3" height="15" rx="0.8" />
+                <rect x="110" y="10" width="3" height="10" rx="0.8" />
+                <rect x="115" y="0" width="3" height="20" rx="0.8" />
+                <rect x="120" y="2" width="3" height="18" rx="0.8" />
+                <rect x="125" y="7" width="3" height="13" rx="0.8" />
+                <rect x="130" y="5" width="3" height="15" rx="0.8" />
+                <rect x="135" y="6" width="3" height="14" rx="0.8" />
+                <rect x="140" y="8" width="3" height="12" rx="0.8" />
+                <rect x="145" y="1" width="3" height="19" rx="0.8" />
+                <rect x="150" y="16" width="3" height="4" rx="0.8" />
+                <rect x="155" y="2" width="3" height="18" rx="0.8" /></svg
+              ><span class="hex">E501 96C1</span></span
+            >
+          </li>
+          <li class="witness">
+            <span class="who">PlusPrivacy</span><span class="chip">Identical</span
+            ><span class="print"
+              ><svg class="bars" viewBox="0 0 158 20" width="316" height="40" aria-hidden="true">
+                <rect x="0" y="2" width="3" height="18" rx="0.8" />
+                <rect x="5" y="17" width="3" height="3" rx="0.8" />
+                <rect x="10" y="7" width="3" height="13" rx="0.8" />
+                <rect x="15" y="4" width="3" height="16" rx="0.8" />
+                <rect x="20" y="16" width="3" height="4" rx="0.8" />
+                <rect x="25" y="10" width="3" height="10" rx="0.8" />
+                <rect x="30" y="15" width="3" height="5" rx="0.8" />
+                <rect x="35" y="15" width="3" height="5" rx="0.8" />
+                <rect x="40" y="15" width="3" height="5" rx="0.8" />
+                <rect x="45" y="8" width="3" height="12" rx="0.8" />
+                <rect x="50" y="15" width="3" height="5" rx="0.8" />
+                <rect x="55" y="7" width="3" height="13" rx="0.8" />
+                <rect x="60" y="16" width="3" height="4" rx="0.8" />
+                <rect x="65" y="5" width="3" height="15" rx="0.8" />
+                <rect x="70" y="0" width="3" height="20" rx="0.8" />
+                <rect x="75" y="16" width="3" height="4" rx="0.8" />
+                <rect x="80" y="9" width="3" height="11" rx="0.8" />
+                <rect x="85" y="6" width="3" height="14" rx="0.8" />
+                <rect x="90" y="3" width="3" height="17" rx="0.8" />
+                <rect x="95" y="11" width="3" height="9" rx="0.8" />
+                <rect x="100" y="4" width="3" height="16" rx="0.8" />
+                <rect x="105" y="5" width="3" height="15" rx="0.8" />
+                <rect x="110" y="10" width="3" height="10" rx="0.8" />
+                <rect x="115" y="0" width="3" height="20" rx="0.8" />
+                <rect x="120" y="2" width="3" height="18" rx="0.8" />
+                <rect x="125" y="7" width="3" height="13" rx="0.8" />
+                <rect x="130" y="5" width="3" height="15" rx="0.8" />
+                <rect x="135" y="6" width="3" height="14" rx="0.8" />
+                <rect x="140" y="8" width="3" height="12" rx="0.8" />
+                <rect x="145" y="1" width="3" height="19" rx="0.8" />
+                <rect x="150" y="16" width="3" height="4" rx="0.8" />
+                <rect x="155" y="2" width="3" height="18" rx="0.8" /></svg
+              ><span class="hex">E501 96C1</span></span
+            ><span class="meta">signed answer</span>
+          </li>
+          <li class="witness">
+            <span class="who">Virginia</span><span class="chip">Identical</span
+            ><span class="print"
+              ><svg class="bars" viewBox="0 0 158 20" width="316" height="40" aria-hidden="true">
+                <rect x="0" y="2" width="3" height="18" rx="0.8" />
+                <rect x="5" y="17" width="3" height="3" rx="0.8" />
+                <rect x="10" y="7" width="3" height="13" rx="0.8" />
+                <rect x="15" y="4" width="3" height="16" rx="0.8" />
+                <rect x="20" y="16" width="3" height="4" rx="0.8" />
+                <rect x="25" y="10" width="3" height="10" rx="0.8" />
+                <rect x="30" y="15" width="3" height="5" rx="0.8" />
+                <rect x="35" y="15" width="3" height="5" rx="0.8" />
+                <rect x="40" y="15" width="3" height="5" rx="0.8" />
+                <rect x="45" y="8" width="3" height="12" rx="0.8" />
+                <rect x="50" y="15" width="3" height="5" rx="0.8" />
+                <rect x="55" y="7" width="3" height="13" rx="0.8" />
+                <rect x="60" y="16" width="3" height="4" rx="0.8" />
+                <rect x="65" y="5" width="3" height="15" rx="0.8" />
+                <rect x="70" y="0" width="3" height="20" rx="0.8" />
+                <rect x="75" y="16" width="3" height="4" rx="0.8" />
+                <rect x="80" y="9" width="3" height="11" rx="0.8" />
+                <rect x="85" y="6" width="3" height="14" rx="0.8" />
+                <rect x="90" y="3" width="3" height="17" rx="0.8" />
+                <rect x="95" y="11" width="3" height="9" rx="0.8" />
+                <rect x="100" y="4" width="3" height="16" rx="0.8" />
+                <rect x="105" y="5" width="3" height="15" rx="0.8" />
+                <rect x="110" y="10" width="3" height="10" rx="0.8" />
+                <rect x="115" y="0" width="3" height="20" rx="0.8" />
+                <rect x="120" y="2" width="3" height="18" rx="0.8" />
+                <rect x="125" y="7" width="3" height="13" rx="0.8" />
+                <rect x="130" y="5" width="3" height="15" rx="0.8" />
+                <rect x="135" y="6" width="3" height="14" rx="0.8" />
+                <rect x="140" y="8" width="3" height="12" rx="0.8" />
+                <rect x="145" y="1" width="3" height="19" rx="0.8" />
+                <rect x="150" y="16" width="3" height="4" rx="0.8" />
+                <rect x="155" y="2" width="3" height="18" rx="0.8" /></svg
+              ><span class="hex">E501 96C1</span></span
+            ><span class="meta">Ashburn, US</span>
+          </li>
+        </ul>
+      </figure>
+    </div>
+    <div class="og" lang="ro" data-lang="ro">
+      <div class="og-text">
+        <p class="og-brand"><img src="../icon.png" width="56" height="56" alt="" />SSL Checker</p>
+        <h1>Vezi certificatul primit cu adevărat de browserul tău</h1>
+        <p class="og-tag">Vezi certificatul real. Prinde interceptarea.</p>
+      </div>
+      <figure class="compare">
+        <div class="verdict">
+          <svg class="shield" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M12 2.6 19.4 5.4v6.1c0 4.5-3.1 8.2-7.4 9.8-4.3-1.6-7.4-5.3-7.4-9.8V5.4L12 2.6Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linejoin="round"
+            />
+            <path
+              d="m8.7 12 2.3 2.3 4.4-4.6"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <div><p class="verdict-title">Confirmat de 2 surse externe</p></div>
+        </div>
+        <ul class="witnesses">
+          <li class="witness">
+            <span class="who">Browserul tău</span
+            ><span class="print"
+              ><svg class="bars" viewBox="0 0 158 20" width="316" height="40" aria-hidden="true">
+                <rect x="0" y="2" width="3" height="18" rx="0.8" />
+                <rect x="5" y="17" width="3" height="3" rx="0.8" />
+                <rect x="10" y="7" width="3" height="13" rx="0.8" />
+                <rect x="15" y="4" width="3" height="16" rx="0.8" />
+                <rect x="20" y="16" width="3" height="4" rx="0.8" />
+                <rect x="25" y="10" width="3" height="10" rx="0.8" />
+                <rect x="30" y="15" width="3" height="5" rx="0.8" />
+                <rect x="35" y="15" width="3" height="5" rx="0.8" />
+                <rect x="40" y="15" width="3" height="5" rx="0.8" />
+                <rect x="45" y="8" width="3" height="12" rx="0.8" />
+                <rect x="50" y="15" width="3" height="5" rx="0.8" />
+                <rect x="55" y="7" width="3" height="13" rx="0.8" />
+                <rect x="60" y="16" width="3" height="4" rx="0.8" />
+                <rect x="65" y="5" width="3" height="15" rx="0.8" />
+                <rect x="70" y="0" width="3" height="20" rx="0.8" />
+                <rect x="75" y="16" width="3" height="4" rx="0.8" />
+                <rect x="80" y="9" width="3" height="11" rx="0.8" />
+                <rect x="85" y="6" width="3" height="14" rx="0.8" />
+                <rect x="90" y="3" width="3" height="17" rx="0.8" />
+                <rect x="95" y="11" width="3" height="9" rx="0.8" />
+                <rect x="100" y="4" width="3" height="16" rx="0.8" />
+                <rect x="105" y="5" width="3" height="15" rx="0.8" />
+                <rect x="110" y="10" width="3" height="10" rx="0.8" />
+                <rect x="115" y="0" width="3" height="20" rx="0.8" />
+                <rect x="120" y="2" width="3" height="18" rx="0.8" />
+                <rect x="125" y="7" width="3" height="13" rx="0.8" />
+                <rect x="130" y="5" width="3" height="15" rx="0.8" />
+                <rect x="135" y="6" width="3" height="14" rx="0.8" />
+                <rect x="140" y="8" width="3" height="12" rx="0.8" />
+                <rect x="145" y="1" width="3" height="19" rx="0.8" />
+                <rect x="150" y="16" width="3" height="4" rx="0.8" />
+                <rect x="155" y="2" width="3" height="18" rx="0.8" /></svg
+              ><span class="hex">E501 96C1</span></span
+            >
+          </li>
+          <li class="witness">
+            <span class="who">PlusPrivacy</span><span class="chip">Identic</span
+            ><span class="print"
+              ><svg class="bars" viewBox="0 0 158 20" width="316" height="40" aria-hidden="true">
+                <rect x="0" y="2" width="3" height="18" rx="0.8" />
+                <rect x="5" y="17" width="3" height="3" rx="0.8" />
+                <rect x="10" y="7" width="3" height="13" rx="0.8" />
+                <rect x="15" y="4" width="3" height="16" rx="0.8" />
+                <rect x="20" y="16" width="3" height="4" rx="0.8" />
+                <rect x="25" y="10" width="3" height="10" rx="0.8" />
+                <rect x="30" y="15" width="3" height="5" rx="0.8" />
+                <rect x="35" y="15" width="3" height="5" rx="0.8" />
+                <rect x="40" y="15" width="3" height="5" rx="0.8" />
+                <rect x="45" y="8" width="3" height="12" rx="0.8" />
+                <rect x="50" y="15" width="3" height="5" rx="0.8" />
+                <rect x="55" y="7" width="3" height="13" rx="0.8" />
+                <rect x="60" y="16" width="3" height="4" rx="0.8" />
+                <rect x="65" y="5" width="3" height="15" rx="0.8" />
+                <rect x="70" y="0" width="3" height="20" rx="0.8" />
+                <rect x="75" y="16" width="3" height="4" rx="0.8" />
+                <rect x="80" y="9" width="3" height="11" rx="0.8" />
+                <rect x="85" y="6" width="3" height="14" rx="0.8" />
+                <rect x="90" y="3" width="3" height="17" rx="0.8" />
+                <rect x="95" y="11" width="3" height="9" rx="0.8" />
+                <rect x="100" y="4" width="3" height="16" rx="0.8" />
+                <rect x="105" y="5" width="3" height="15" rx="0.8" />
+                <rect x="110" y="10" width="3" height="10" rx="0.8" />
+                <rect x="115" y="0" width="3" height="20" rx="0.8" />
+                <rect x="120" y="2" width="3" height="18" rx="0.8" />
+                <rect x="125" y="7" width="3" height="13" rx="0.8" />
+                <rect x="130" y="5" width="3" height="15" rx="0.8" />
+                <rect x="135" y="6" width="3" height="14" rx="0.8" />
+                <rect x="140" y="8" width="3" height="12" rx="0.8" />
+                <rect x="145" y="1" width="3" height="19" rx="0.8" />
+                <rect x="150" y="16" width="3" height="4" rx="0.8" />
+                <rect x="155" y="2" width="3" height="18" rx="0.8" /></svg
+              ><span class="hex">E501 96C1</span></span
+            ><span class="meta">răspuns semnat</span>
+          </li>
+          <li class="witness">
+            <span class="who">Virginia</span><span class="chip">Identic</span
+            ><span class="print"
+              ><svg class="bars" viewBox="0 0 158 20" width="316" height="40" aria-hidden="true">
+                <rect x="0" y="2" width="3" height="18" rx="0.8" />
+                <rect x="5" y="17" width="3" height="3" rx="0.8" />
+                <rect x="10" y="7" width="3" height="13" rx="0.8" />
+                <rect x="15" y="4" width="3" height="16" rx="0.8" />
+                <rect x="20" y="16" width="3" height="4" rx="0.8" />
+                <rect x="25" y="10" width="3" height="10" rx="0.8" />
+                <rect x="30" y="15" width="3" height="5" rx="0.8" />
+                <rect x="35" y="15" width="3" height="5" rx="0.8" />
+                <rect x="40" y="15" width="3" height="5" rx="0.8" />
+                <rect x="45" y="8" width="3" height="12" rx="0.8" />
+                <rect x="50" y="15" width="3" height="5" rx="0.8" />
+                <rect x="55" y="7" width="3" height="13" rx="0.8" />
+                <rect x="60" y="16" width="3" height="4" rx="0.8" />
+                <rect x="65" y="5" width="3" height="15" rx="0.8" />
+                <rect x="70" y="0" width="3" height="20" rx="0.8" />
+                <rect x="75" y="16" width="3" height="4" rx="0.8" />
+                <rect x="80" y="9" width="3" height="11" rx="0.8" />
+                <rect x="85" y="6" width="3" height="14" rx="0.8" />
+                <rect x="90" y="3" width="3" height="17" rx="0.8" />
+                <rect x="95" y="11" width="3" height="9" rx="0.8" />
+                <rect x="100" y="4" width="3" height="16" rx="0.8" />
+                <rect x="105" y="5" width="3" height="15" rx="0.8" />
+                <rect x="110" y="10" width="3" height="10" rx="0.8" />
+                <rect x="115" y="0" width="3" height="20" rx="0.8" />
+                <rect x="120" y="2" width="3" height="18" rx="0.8" />
+                <rect x="125" y="7" width="3" height="13" rx="0.8" />
+                <rect x="130" y="5" width="3" height="15" rx="0.8" />
+                <rect x="135" y="6" width="3" height="14" rx="0.8" />
+                <rect x="140" y="8" width="3" height="12" rx="0.8" />
+                <rect x="145" y="1" width="3" height="19" rx="0.8" />
+                <rect x="150" y="16" width="3" height="4" rx="0.8" />
+                <rect x="155" y="2" width="3" height="18" rx="0.8" /></svg
+              ><span class="hex">E501 96C1</span></span
+            ><span class="meta">Ashburn, US</span>
+          </li>
+        </ul>
+      </figure>
+    </div>
+  </body>
+</html>

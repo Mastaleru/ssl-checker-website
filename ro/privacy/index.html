@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ro" data-alternate="../../privacy/">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Politica de confidențialitate SSL Checker</title>
+    <meta name="description" content="Ce citesc, trimit și păstrează extensia SSL Checker și notarul PlusPrivacy." />
+    <link rel="canonical" href="https://sslchecker.plusprivacy.com/ro/privacy/" />
+    <link rel="alternate" hreflang="en" href="https://sslchecker.plusprivacy.com/privacy/" />
+    <link rel="alternate" hreflang="ro" href="https://sslchecker.plusprivacy.com/ro/privacy/" />
+    <link rel="alternate" hreflang="x-default" href="https://sslchecker.plusprivacy.com/privacy/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SSL Checker" />
+    <meta property="og:title" content="Politica de confidențialitate SSL Checker" />
+    <meta
+      property="og:description"
+      content="Ce citesc, trimit și păstrează extensia SSL Checker și notarul PlusPrivacy."
+    />
+    <meta property="og:url" content="https://sslchecker.plusprivacy.com/ro/privacy/" />
+    <meta property="og:image" content="https://sslchecker.plusprivacy.com/img/og-ro.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="ro_RO" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f5f7fa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1726" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/png" href="../../icon.png" />
+    <link
+      rel="preload"
+      href="../../fonts/atkinson-hyperlegible-next-latin-wght-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="../../style.css" />
+    <script>
+      // The page in the browser's language when it is Romanian, otherwise in English,
+      // unless the visitor picked a language with the link in the header or footer.
+      (function () {
+        var root = document.documentElement;
+        var page = root.lang;
+        var url = new URL(location.href);
+        var choice = url.searchParams.get('lang');
+        try {
+          if (choice === 'en' || choice === 'ro') {
+            localStorage.setItem('lang', choice);
+          } else {
+            choice = localStorage.getItem('lang');
+          }
+        } catch (e) {}
+        if (!choice && page === 'en') {
+          var tags = navigator.languages || [navigator.language || ''];
+          for (var i = 0; i < tags.length && !choice; i++) {
+            var tag = String(tags[i]).toLowerCase();
+            choice = /^ro(-|$)/.test(tag) ? 'ro' : /^en(-|$)/.test(tag) ? 'en' : null;
+          }
+        }
+        if (choice && choice !== page) {
+          location.replace(new URL(root.dataset.alternate, location.href).href + location.hash);
+        } else if (url.searchParams.has('lang')) {
+          url.searchParams.delete('lang');
+          history.replaceState(null, '', url.pathname + url.search + url.hash);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Sari la conținut</a>
+    <header class="site-head wrap">
+      <a class="brand" href="../../ro/"><img src="../../icon.png" width="32" height="32" alt="" />SSL Checker</a>
+      <nav class="site-nav" aria-label="Principal">
+        <a class="optional" href="../../ro/#interception">Cum funcționează</a>
+        <a class="optional" href="../../ro/#privacy">Confidențialitate</a>
+        <a class="optional" href="https://github.com/Mastaleru/ssl-checker">Cod sursă</a>
+        <a class="lang" href="../../privacy/?lang=en" hreflang="en" lang="en">English</a>
+      </nav>
+    </header>
+    <main id="main" class="prose wrap">
+      <h1>Politica de confidențialitate</h1>
+      <p class="updated">Ultima actualizare: 30 octombrie 2026</p>
+      <p>
+        SSL Checker este o extensie de browser care afișează certificatul TLS al
+        <span class="nowrap">site-ului</span> din tabul activ și îl compară cu ce văd servere notar din alte puncte ale
+        internetului.
+      </p>
+      <p>
+        <strong>Ce citește extensia.</strong> Doar când îi deschizi <span class="nowrap">popup-ul</span> și doar după ce
+        <span class="nowrap">ți-ai</span> dat acordul acolo: adresa tabului activ (ca să știe ce site verifică) și, dacă
+        citirea din browser e activă, lanțul de certificate și parametrii conexiunii acelui tab, prin interfața de
+        depanare a Chrome. Nu citește conținutul paginilor, <span class="nowrap">cookie-uri</span>, parole, date din
+        formulare, alte taburi sau istoricul de navigare.
+      </p>
+      <p>
+        <strong>Ce pleacă de pe dispozitivul tău.</strong> Nimic înainte să fii de acord. După aceea, când verifici un
+        site, numele lui și portul sunt trimise notarului PlusPrivacy (<code>notary.plusprivacy.com</code>), operat de
+        dezvoltatorul SSL Checker, dacă nu <span class="nowrap">l-ai</span> oprit, și serverelor notar pe care le adaugi
+        în Opțiuni, împreună cu tokenul de acces introdus pentru un server, dacă există. Fiecare cerere mai conține un
+        număr aleator, folosit doar ca să se verifice că răspunsul a fost făcut pentru ea. Nimic altceva nu este trimis
+        dezvoltatorului. Nu există analytics, urmărire, reclame sau cont.
+      </p>
+      <p>
+        <strong>Notarul PlusPrivacy.</strong> Folosește numele și portul doar ca să se conecteze la site și să întoarcă
+        certificatul pe care acesta îl prezintă. Nu scrie nimic pe disc și nu păstrează nicio evidență a
+        <span class="nowrap">site-urilor</span> verificate. În memorie păstrează fiecare răspuns 60 de secunde, ca un
+        site să nu fie contactat din nou la fiecare cerere, și numără cererile pe adresă de rețea ca să oprească
+        abuzurile; o adresă care abuzează e blocată cel mult 24 de ore și apare în jurnalul lui. Toate cererile către el
+        sunt criptate (HTTPS), iar numele <span class="nowrap">site-ului</span> călătorește în corpul cererii, niciodată
+        în adresa ei. Își semnează fiecare răspuns, ca extensia să poată verifica dacă nu a fost schimbat pe drum.
+      </p>
+      <p>
+        <strong>Ce se păstrează.</strong> Acordul și setările tale (notarul PlusPrivacy pornit sau oprit, modul de
+        citire, adresele, tokenurile și cheile notarilor, timpul de așteptare) sunt păstrate cu
+        <code>chrome.storage.local</code> pe dispozitivul tău. Rezultatul ultimei verificări pentru fiecare tab e
+        păstrat cu <code>chrome.storage.session</code> și se șterge când închizi tabul sau browserul. Dacă memoria
+        <span class="nowrap">site-urilor</span> e pornită (implicit, când certificatul e citit din browser), se
+        păstrează tot cu <code>chrome.storage.local</code> numele fiecărui site verificat și autoritatea de certificare
+        folosită (nume, amprente de chei, date și numărul de verificări), ca SSL Checker să te poată avertiza când un
+        site apare brusc cu altă autoritate. Din ferestrele incognito nu se înregistrează nimic. Datele nu părăsesc
+        dispozitivul; poți opri memoria sau o poți șterge din Opțiuni, iar
+        <span class="nowrap">site-urile</span> nevăzute de 400 de zile se șterg automat.
+      </p>
+      <p>
+        <strong>Terți.</strong> Serverele notar pe care le adaugi sunt operate de tine sau de cine alegi tu; se aplică
+        politicile lor. Folosirea datelor de către SSL Checker respectă Politica privind datele utilizatorilor din
+        Chrome Web Store, inclusiv cerințele de utilizare limitată (Limited Use).
+      </p>
+      <p>
+        <strong>Contact.</strong> <a href="mailto:mastaleru.rafael@gmail.com">mastaleru.rafael@gmail.com</a> ·
+        <a href="https://www.linkedin.com/in/mastaleru/">LinkedIn</a>
+      </p>
+    </main>
+
+    <footer class="site-foot">
+      <div class="foot-grid wrap">
+        <div class="foot-brand">
+          <img src="../../icon.png" width="32" height="32" alt="" />
+          <div>
+            <strong>SSL Checker</strong>
+            <p>Vezi certificatul real. Prinde interceptarea.</p>
+          </div>
+        </div>
+        <ul class="foot-links">
+          <li><a href="../../ro/privacy/">Politica de confidențialitate</a></li>
+          <li><a href="https://github.com/Mastaleru/ssl-checker">Cod sursă</a></li>
+          <li><a href="https://github.com/Mastaleru/ssl-checker/tree/main/notary">Instalează un notar</a></li>
+          <li><a href="mailto:mastaleru.rafael@gmail.com">Contact</a></li>
+          <li><a href="https://www.linkedin.com/in/mastaleru/">LinkedIn</a></li>
+          <li><a href="../../privacy/?lang=en" hreflang="en" lang="en">English</a></li>
+        </ul>
+        <p class="copy">© 2026 Rafael Mastaleru</p>
+      </div>
+    </footer>
+  </body>
+</html>

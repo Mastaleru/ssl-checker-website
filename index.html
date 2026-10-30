@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SSL Checker</title>
+    <meta
+      name="description"
+      content="See the real TLS certificate of the current site and detect interception by comparing it with independent notaries."
+    />
+    <link rel="icon" type="image/png" href="icon.png" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <header class="head">
+        <img src="icon.png" width="56" height="56" alt="" />
+        <h1>SSL Checker</h1>
+      </header>
+      <nav><a href="#en">English</a> · <a href="#ro" lang="ro">Română</a></nav>
+
+      <section id="en">
+        <h2>English</h2>
+        <p class="lead">
+          A Chrome extension that shows the real TLS certificate of the current site and detects interception by
+          comparing it with independent notaries.
+        </p>
+        <ul>
+          <li>
+            <strong>The certificate your browser received:</strong> names covered, issuer, validity, the full chain,
+            fingerprints and the TLS parameters of the connection.
+          </li>
+          <li>
+            <strong>A second opinion:</strong> notary servers connect to the same site from elsewhere on the internet.
+            When your certificate differs from theirs and is not publicly logged, something between you and the site is
+            decrypting and re-signing your HTTPS traffic: a company proxy, an antivirus, or worse.
+          </li>
+          <li>
+            <strong>Memory of the sites you check:</strong> a warning when a site you know suddenly arrives with a
+            different certificate authority. This memory stays on your device.
+          </li>
+        </ul>
+        <p>
+          <a href="privacy/">Privacy policy</a> · <a href="https://github.com/Mastaleru/ssl-checker">Source code</a> ·
+          <a href="https://github.com/Mastaleru/ssl-checker/tree/main/notary">Run your own notary</a>
+        </p>
+      </section>
+
+      <section id="ro" lang="ro">
+        <h2>Română</h2>
+        <p class="lead">
+          O extensie de Chrome care îți arată certificatul TLS real al site-ului curent și detectează interceptarea,
+          comparându-l cu notari independenți.
+        </p>
+        <ul>
+          <li>
+            <strong>Certificatul primit de browser:</strong> numele acoperite, emitentul, valabilitatea, lanțul complet,
+            amprentele și parametrii TLS ai conexiunii.
+          </li>
+          <li>
+            <strong>O a doua opinie:</strong> servere notar se conectează la același site din alte puncte ale
+            internetului. Când certificatul tău diferă de al lor și nu e înregistrat public, ceva dintre tine și site
+            îți decriptează și re-semnează traficul HTTPS: un proxy de firmă, un antivirus sau mai rău.
+          </li>
+          <li>
+            <strong>Memoria site-urilor verificate:</strong> un avertisment când un site cunoscut apare brusc cu altă
+            autoritate de certificare. Memoria rămâne pe dispozitivul tău.
+          </li>
+        </ul>
+        <p>
+          <a href="privacy/">Politica de confidențialitate</a> ·
+          <a href="https://github.com/Mastaleru/ssl-checker">Codul sursă</a> ·
+          <a href="https://github.com/Mastaleru/ssl-checker/tree/main/notary">Instalează-ți propriul notar</a>
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

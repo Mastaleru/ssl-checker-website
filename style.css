@@ -290,14 +290,6 @@ pre {
   color: var(--on-brand);
 }
 
-/* Until the store listing is live: not a link, and does not look like one. */
-.button.soon {
-  border-style: dashed;
-  background: transparent;
-  color: var(--ink-2);
-  font-weight: 600;
-}
-
 .note {
   margin: 0;
   color: var(--ink-3);

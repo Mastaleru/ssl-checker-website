@@ -31,15 +31,9 @@ When you change a text, change it in both `index.html` and `ro/index.html` (or i
 
 The policy says what the extension and the PlusPrivacy notary do with data. When a change in the ssl-checker repository changes that (a new permission, something new sent, stored or kept by the notary), update both privacy pages, together with their dates, before that version is submitted to the store.
 
-## When the extension is in the Chrome Web Store
+## Chrome Web Store
 
-The first button on the product page is a placeholder, "Coming soon to the Chrome Web Store". Once the listing is public, replace it in both `index.html` and `ro/index.html` with a link to the listing:
-
-```html
-<a class="button primary" href="https://chromewebstore.google.com/detail/…">Add to Chrome</a>
-```
-
-In Romanian, "Adaugă în Chrome".
+The listing is <https://chromewebstore.google.com/detail/ssl-checker/nbanpljakngdndmmekhogfliinegiapb>. The product page's first button ("Add to Chrome", "Adaugă în Chrome") and the first footer link on every page point to it; the Romanian pages add `?hl=ro`, so that the store shows the Romanian listing.
 
 ## Publishing
 

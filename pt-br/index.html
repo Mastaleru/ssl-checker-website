@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="pt-BR" data-root="../" data-page="">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SSL Checker: veja o certificado real e detecte a interceptação de HTTPS</title>
+    <meta name="description" content="Veja o certificado TLS real do site atual e detecte interceptações comparando-o com notários independentes." />
+    <link rel="canonical" href="https://sslchecker.plusprivacy.com/pt-br/" />
+    <link rel="alternate" hreflang="de" href="https://sslchecker.plusprivacy.com/de/" />
+    <link rel="alternate" hreflang="en" href="https://sslchecker.plusprivacy.com/" />
+    <link rel="alternate" hreflang="es" href="https://sslchecker.plusprivacy.com/es/" />
+    <link rel="alternate" hreflang="fr" href="https://sslchecker.plusprivacy.com/fr/" />
+    <link rel="alternate" hreflang="it" href="https://sslchecker.plusprivacy.com/it/" />
+    <link rel="alternate" hreflang="nl" href="https://sslchecker.plusprivacy.com/nl/" />
+    <link rel="alternate" hreflang="pl" href="https://sslchecker.plusprivacy.com/pl/" />
+    <link rel="alternate" hreflang="pt-BR" href="https://sslchecker.plusprivacy.com/pt-br/" />
+    <link rel="alternate" hreflang="ro" href="https://sslchecker.plusprivacy.com/ro/" />
+    <link rel="alternate" hreflang="tr" href="https://sslchecker.plusprivacy.com/tr/" />
+    <link rel="alternate" hreflang="uk" href="https://sslchecker.plusprivacy.com/uk/" />
+    <link rel="alternate" hreflang="ja" href="https://sslchecker.plusprivacy.com/ja/" />
+    <link rel="alternate" hreflang="ko" href="https://sslchecker.plusprivacy.com/ko/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://sslchecker.plusprivacy.com/zh-cn/" />
+    <link rel="alternate" hreflang="x-default" href="https://sslchecker.plusprivacy.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SSL Checker" />
+    <meta property="og:title" content="SSL Checker: veja o certificado real e detecte a interceptação de HTTPS" />
+    <meta property="og:description" content="Veja o certificado TLS real do site atual e detecte interceptações comparando-o com notários independentes." />
+    <meta property="og:url" content="https://sslchecker.plusprivacy.com/pt-br/" />
+    <meta property="og:image" content="https://sslchecker.plusprivacy.com/img/og-pt-br.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f5f7fa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1726" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/png" href="../icon.png" />
+    <link rel="preload" href="../fonts/atkinson-hyperlegible-next-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="../style.css" />
+    <script>
+      // An English page sends a visitor whose browser prefers another of the site's
+      // languages to that language; a language picked in the menu wins from then on.
+      (function () {
+        var html = document.documentElement;
+        var languages = ["de","en","es","fr","it","nl","pl","pt-br","ro","tr","uk","ja","ko","zh-cn"];
+        var page = html.lang.toLowerCase();
+        var url = new URL(location.href);
+        var choice = (url.searchParams.get('lang') || '').toLowerCase();
+        function match(tag) {
+          var base = tag.split('-')[0];
+          if (languages.indexOf(tag) >= 0) return tag;
+          if (base === 'zh') return /-(hant|tw|hk|mo)(-|$)/.test(tag) || languages.indexOf('zh-cn') < 0 ? null : 'zh-cn';
+          if (base === 'pt') return languages.indexOf('pt-br') >= 0 ? 'pt-br' : null;
+          return languages.indexOf(base) >= 0 ? base : null;
+        }
+        try {
+          if (languages.indexOf(choice) >= 0) {
+            localStorage.setItem('lang', choice);
+          } else {
+            choice = localStorage.getItem('lang');
+          }
+        } catch (e) {}
+        if (languages.indexOf(choice) < 0) choice = null;
+        if (!choice && page === 'en') {
+          var tags = navigator.languages || [navigator.language || ''];
+          for (var i = 0; i < tags.length && !choice; i++) choice = match(String(tags[i]).toLowerCase());
+        }
+        if (choice && choice !== page) {
+          var target = html.dataset.root + (choice === 'en' ? '' : choice + '/') + html.dataset.page;
+          location.replace(new URL(target, location.href).href + location.hash);
+        } else if (url.searchParams.has('lang')) {
+          url.searchParams.delete('lang');
+          history.replaceState(null, '', url.pathname + url.search + url.hash);
+        }
+      })();
+      // The language menu closes like other menus: on a click outside it, or on Escape.
+      document.addEventListener('click', function (event) {
+        var menu = document.querySelector('.lang-menu[open]');
+        if (menu && !menu.contains(event.target)) menu.open = false;
+      });
+      document.addEventListener('keydown', function (event) {
+        var menu = document.querySelector('.lang-menu[open]');
+        if (menu && event.key === 'Escape') {
+          menu.open = false;
+          menu.querySelector('summary').focus();
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Pular para o conteúdo</a>
+    <header class="site-head wrap">
+      <a class="brand" href="./"><img src="../icon.png" width="32" height="32" alt="" />SSL Checker</a>
+      <nav class="site-nav" aria-label="Principal">
+        <a class="optional" href="#interception">Como funciona</a>
+        <a class="optional" href="#privacy">Privacidade</a>
+        <a class="optional" href="https://github.com/Mastaleru/ssl-checker">Código-fonte</a>
+        <details class="lang-menu">
+          <summary aria-label="Idioma: Português (Brasil)"><svg class="globe" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6" /><path d="M3 12h18M12 3c2.6 2.5 3.9 5.5 3.9 9s-1.3 6.5-3.9 9c-2.6-2.5-3.9-5.5-3.9-9S9.4 5.5 12 3Z" fill="none" stroke="currentColor" stroke-width="1.6" /></svg><span>Português (Brasil)</span></summary>
+          <ul style="--rows: 7">
+            <li><a href="../de/?lang=de" hreflang="de" lang="de">Deutsch</a></li>
+            <li><a href="../?lang=en" hreflang="en" lang="en">English</a></li>
+            <li><a href="../es/?lang=es" hreflang="es" lang="es">Español</a></li>
+            <li><a href="../fr/?lang=fr" hreflang="fr" lang="fr">Français</a></li>
+            <li><a href="../it/?lang=it" hreflang="it" lang="it">Italiano</a></li>
+            <li><a href="../nl/?lang=nl" hreflang="nl" lang="nl">Nederlands</a></li>
+            <li><a href="../pl/?lang=pl" hreflang="pl" lang="pl">Polski</a></li>
+            <li><a href="./?lang=pt-br" hreflang="pt-BR" lang="pt-BR" aria-current="page">Português (Brasil)</a></li>
+            <li><a href="../ro/?lang=ro" hreflang="ro" lang="ro">Română</a></li>
+            <li><a href="../tr/?lang=tr" hreflang="tr" lang="tr">Türkçe</a></li>
+            <li><a href="../uk/?lang=uk" hreflang="uk" lang="uk">Українська</a></li>
+            <li><a href="../ja/?lang=ja" hreflang="ja" lang="ja">日本語</a></li>
+            <li><a href="../ko/?lang=ko" hreflang="ko" lang="ko">한국어</a></li>
+            <li><a href="../zh-cn/?lang=zh-cn" hreflang="zh-CN" lang="zh-CN">简体中文</a></li>
+          </ul>
+        </details>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="hero wrap" aria-labelledby="title">
+        <div>
+          <h1 id="title">Veja o certificado que seu navegador realmente recebeu</h1>
+          <p class="lead">O SSL Checker lê o certificado do site na sua guia diretamente do Chrome e o compara com o que notários independentes veem de outros pontos da internet. Se os dois forem diferentes, algo entre você e o site o está substituindo.</p>
+          <div class="actions">
+            <a class="button primary" href="https://chromewebstore.google.com/detail/ssl-checker/nbanpljakngdndmmekhogfliinegiapb?hl=pt-BR">Usar no Chrome</a>
+            <a class="button" href="https://github.com/Mastaleru/ssl-checker">Ver o código-fonte no GitHub</a>
+          </div>
+          <p class="note">Gratuito e de código aberto. Sem conta, sem estatísticas de uso.</p>
+        </div>
+        <figure class="compare" aria-labelledby="compare-caption">
+          <div class="network" role="radiogroup" aria-labelledby="network-label">
+            <span id="network-label">Sua rede</span>
+            <span class="seg">
+              <label><input type="radio" name="network" value="ordinary" checked />Comum</label>
+              <label><input type="radio" name="network" value="inspected" />Inspeciona HTTPS</label>
+            </span>
+          </div>
+          <div class="verdict">
+            <svg class="shield is-good" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6 19.4 5.4v6.1c0 4.5-3.1 8.2-7.4 9.8-4.3-1.6-7.4-5.3-7.4-9.8V5.4L12 2.6Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" /><path d="m8.7 12 2.3 2.3 4.4-4.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg><svg class="shield is-bad" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6 19.4 5.4v6.1c0 4.5-3.1 8.2-7.4 9.8-4.3-1.6-7.4-5.3-7.4-9.8V5.4L12 2.6Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" /><path d="m9.6 9.4 4.8 4.8m0-4.8-4.8 4.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+            <div>
+              <p class="verdict-title"><span class="is-good">Confirmado por 2 fontes externas</span><span class="is-bad">Conexão provavelmente interceptada</span></p>
+              <p class="verdict-body"><span class="is-good">Seu navegador recebe o mesmo certificado que as fontes externas veem. Ninguém o está substituindo no caminho.</span><span class="is-bad">Seu navegador recebe um certificado emitido por Contoso Inspection CA, mas as fontes externas veem um emitido por Example TLS ECC CA 2026.</span></p>
+            </div>
+          </div>
+          <ul class="witnesses">
+            <li class="witness you">
+              <span class="who">Seu navegador</span>
+              <span class="print"><svg class="bars" viewBox="0 0 158 20" width="316" height="40" aria-hidden="true"><rect x="0" y="0" width="3" height="20" rx="0.8" style="--i: 0; --a: 0.9; --b: 0.95" /><rect x="5" y="0" width="3" height="20" rx="0.8" style="--i: 1; --a: 0.15; --b: 0.85" /><rect x="10" y="0" width="3" height="20" rx="0.8" style="--i: 2; --a: 0.65; --b: 0.7" /><rect x="15" y="0" width="3" height="20" rx="0.8" style="--i: 3; --a: 0.8; --b: 0.75" /><rect x="20" y="0" width="3" height="20" rx="0.8" style="--i: 4; --a: 0.2; --b: 0.85" /><rect x="25" y="0" width="3" height="20" rx="0.8" style="--i: 5; --a: 0.5; --b: 0.85" /><rect x="30" y="0" width="3" height="20" rx="0.8" style="--i: 6; --a: 0.25; --b: 0.65" /><rect x="35" y="0" width="3" height="20" rx="0.8" style="--i: 7; --a: 0.25; --b: 0.45" /><rect x="40" y="0" width="3" height="20" rx="0.8" style="--i: 8; --a: 0.25; --b: 0.65" /><rect x="45" y="0" width="3" height="20" rx="0.8" style="--i: 9; --a: 0.6; --b: 0.55" /><rect x="50" y="0" width="3" height="20" rx="0.8" style="--i: 10; --a: 0.25; --b: 0.7" /><rect x="55" y="0" width="3" height="20" rx="0.8" style="--i: 11; --a: 0.65; --b: 0.55" /><rect x="60" y="0" width="3" height="20" rx="0.8" style="--i: 12; --a: 0.2; --b: 0.35" /><rect x="65" y="0" width="3" height="20" rx="0.8" style="--i: 13; --a: 0.75; --b: 0.85" /><rect x="70" y="0" width="3" height="20" rx="0.8" style="--i: 14; --a: 1; --b: 0.3" /><rect x="75" y="0" width="3" height="20" rx="0.8" style="--i: 15; --a: 0.2; --b: 0.3" /><rect x="80" y="0" width="3" height="20" rx="0.8" style="--i: 16; --a: 0.55; --b: 0.95" /><rect x="85" y="0" width="3" height="20" rx="0.8" style="--i: 17; --a: 0.7; --b: 0.15" /><rect x="90" y="0" width="3" height="20" rx="0.8" style="--i: 18; --a: 0.85; --b: 0.65" /><rect x="95" y="0" width="3" height="20" rx="0.8" style="--i: 19; --a: 0.45; --b: 0.85" /><rect x="100" y="0" width="3" height="20" rx="0.8" style="--i: 20; --a: 0.8; --b: 0.8" /><rect x="105" y="0" width="3" height="20" rx="0.8" style="--i: 21; --a: 0.75; --b: 0.35" /><rect x="110" y="0" width="3" height="20" rx="0.8" style="--i: 22; --a: 0.5; --b: 0.8" /><rect x="115" y="0" width="3" height="20" rx="0.8" style="--i: 23; --a: 1; --b: 0.85" /><rect x="120" y="0" width="3" height="20" rx="0.8" style="--i: 24; --a: 0.9; --b: 0.45" /><rect x="125" y="0" width="3" height="20" rx="0.8" style="--i: 25; --a: 0.65; --b: 0.65" /><rect x="130" y="0" width="3" height="20" rx="0.8" style="--i: 26; --a: 0.75; --b: 0.35" /><rect x="135" y="0" width="3" height="20" rx="0.8" style="--i: 27; --a: 0.7; --b: 0.8" /><rect x="140" y="0" width="3" height="20" rx="0.8" style="--i: 28; --a: 0.6; --b: 0.2" /><rect x="145" y="0" width="3" height="20" rx="0.8" style="--i: 29; --a: 0.95; --b: 0.25" /><rect x="150" y="0" width="3" height="20" rx="0.8" style="--i: 30; --a: 0.2; --b: 0.2" /><rect x="155" y="0" width="3" height="20" rx="0.8" style="--i: 31; --a: 0.9; --b: 0.6" /></svg><span class="hex"><span class="is-good">E501 96C1</span><span class="is-bad">F4CD ACB7</span></span></span>
+            </li>
+            <li class="witness">
+              <span class="who">PlusPrivacy</span>
+              <span class="chip"><span class="is-good">Idêntico</span><span class="is-bad">Certificado diferente</span></span>
+              <span class="print"><svg class="bars" viewBox="0 0 158 20" width="316" height="40" aria-hidden="true"><rect x="0" y="2" width="3" height="18" rx="0.8" /><rect x="5" y="17" width="3" height="3" rx="0.8" /><rect x="10" y="7" width="3" height="13" rx="0.8" /><rect x="15" y="4" width="3" height="16" rx="0.8" /><rect x="20" y="16" width="3" height="4" rx="0.8" /><rect x="25" y="10" width="3" height="10" rx="0.8" /><rect x="30" y="15" width="3" height="5" rx="0.8" /><rect x="35" y="15" width="3" height="5" rx="0.8" /><rect x="40" y="15" width="3" height="5" rx="0.8" /><rect x="45" y="8" width="3" height="12" rx="0.8" /><rect x="50" y="15" width="3" height="5" rx="0.8" /><rect x="55" y="7" width="3" height="13" rx="0.8" /><rect x="60" y="16" width="3" height="4" rx="0.8" /><rect x="65" y="5" width="3" height="15" rx="0.8" /><rect x="70" y="0" width="3" height="20" rx="0.8" /><rect x="75" y="16" width="3" height="4" rx="0.8" /><rect x="80" y="9" width="3" height="11" rx="0.8" /><rect x="85" y="6" width="3" height="14" rx="0.8" /><rect x="90" y="3" width="3" height="17" rx="0.8" /><rect x="95" y="11" width="3" height="9" rx="0.8" /><rect x="100" y="4" width="3" height="16" rx="0.8" /><rect x="105" y="5" width="3" height="15" rx="0.8" /><rect x="110" y="10" width="3" height="10" rx="0.8" /><rect x="115" y="0" width="3" height="20" rx="0.8" /><rect x="120" y="2" width="3" height="18" rx="0.8" /><rect x="125" y="7" width="3" height="13" rx="0.8" /><rect x="130" y="5" width="3" height="15" rx="0.8" /><rect x="135" y="6" width="3" height="14" rx="0.8" /><rect x="140" y="8" width="3" height="12" rx="0.8" /><rect x="145" y="1" width="3" height="19" rx="0.8" /><rect x="150" y="16" width="3" height="4" rx="0.8" /><rect x="155" y="2" width="3" height="18" rx="0.8" /></svg><span class="hex">E501 96C1</span></span>
+              <span class="meta">resposta assinada</span>
+            </li>
+            <li class="witness">
+              <span class="who">Virginia</span>
+              <span class="chip"><span class="is-good">Idêntico</span><span class="is-bad">Certificado diferente</span></span>
+              <span class="print"><svg class="bars" viewBox="0 0 158 20" width="316" height="40" aria-hidden="true"><rect x="0" y="2" width="3" height="18" rx="0.8" /><rect x="5" y="17" width="3" height="3" rx="0.8" /><rect x="10" y="7" width="3" height="13" rx="0.8" /><rect x="15" y="4" width="3" height="16" rx="0.8" /><rect x="20" y="16" width="3" height="4" rx="0.8" /><rect x="25" y="10" width="3" height="10" rx="0.8" /><rect x="30" y="15" width="3" height="5" rx="0.8" /><rect x="35" y="15" width="3" height="5" rx="0.8" /><rect x="40" y="15" width="3" height="5" rx="0.8" /><rect x="45" y="8" width="3" height="12" rx="0.8" /><rect x="50" y="15" width="3" height="5" rx="0.8" /><rect x="55" y="7" width="3" height="13" rx="0.8" /><rect x="60" y="16" width="3" height="4" rx="0.8" /><rect x="65" y="5" width="3" height="15" rx="0.8" /><rect x="70" y="0" width="3" height="20" rx="0.8" /><rect x="75" y="16" width="3" height="4" rx="0.8" /><rect x="80" y="9" width="3" height="11" rx="0.8" /><rect x="85" y="6" width="3" height="14" rx="0.8" /><rect x="90" y="3" width="3" height="17" rx="0.8" /><rect x="95" y="11" width="3" height="9" rx="0.8" /><rect x="100" y="4" width="3" height="16" rx="0.8" /><rect x="105" y="5" width="3" height="15" rx="0.8" /><rect x="110" y="10" width="3" height="10" rx="0.8" /><rect x="115" y="0" width="3" height="20" rx="0.8" /><rect x="120" y="2" width="3" height="18" rx="0.8" /><rect x="125" y="7" width="3" height="13" rx="0.8" /><rect x="130" y="5" width="3" height="15" rx="0.8" /><rect x="135" y="6" width="3" height="14" rx="0.8" /><rect x="140" y="8" width="3" height="12" rx="0.8" /><rect x="145" y="1" width="3" height="19" rx="0.8" /><rect x="150" y="16" width="3" height="4" rx="0.8" /><rect x="155" y="2" width="3" height="18" rx="0.8" /></svg><span class="hex">E501 96C1</span></span>
+              <span class="meta">Ashburn, US</span>
+            </li>
+          </ul>
+          <figcaption id="compare-caption">Cada padrão de barras é a impressão digital SHA-256 de um certificado, desenhada do mesmo jeito que a extensão a desenha: o mesmo certificado sempre gera as mesmas barras.</figcaption>
+        </figure>
+      </section>
+
+      <section class="feature wrap" id="details" aria-labelledby="details-title">
+        <div>
+          <h2 id="details-title">Todos os detalhes da conexão</h2>
+          <p>O que o Chrome recebeu para esta guia, lido no próprio navegador em vez de buscado novamente em um servidor.</p>
+<ul>
+<li>Nomes cobertos, emissor, validade e dias restantes, nível de validação (DV, OV, EV)</li>
+<li>Versão do TLS, troca de chaves incluindo híbridos pós-quânticos, cifra e Encrypted Client Hello</li>
+<li>Status do Certificate Transparency e os carimbos de data/hora assinados do certificado</li>
+<li>A cadeia completa, as impressões digitais e todas as extensões. Copie o PEM ou baixe a cadeia.</li>
+</ul>
+        </div>
+        <figure class="shot">
+          <picture>
+            <source srcset="../img/pt-br/details-dark.webp" media="(prefers-color-scheme: dark)" />
+            <img src="../img/pt-br/details-light.webp" width="400" height="600" alt="O pop-up do SSL Checker mostrando o Certificate Transparency, a cadeia de certificados e as impressões digitais de www.example.com." loading="lazy" decoding="async" />
+          </picture>
+        </figure>
+      </section>
+
+      <section class="feature wrap" id="interception" aria-labelledby="interception-title">
+        <div>
+          <h2 id="interception-title">Detecte a interceptação de HTTPS</h2>
+          <p>Proxies corporativos, a verificação de HTTPS dos antivírus e invasores em redes Wi-Fi públicas funcionam do mesmo jeito: eles descriptografam seu tráfego e entregam ao seu navegador um certificado próprio. A página parece normal e o cadeado continua lá.</p>
+<p>O SSL Checker pergunta ao notário PlusPrivacy, e a qualquer notário que você adicionar, qual certificado o mesmo site mostra a eles. Os notários se conectam de outros pontos da internet, sem passar pelo que estiver na sua rede, e as impressões digitais são comparadas:</p>
+<ul>
+<li><strong>Mesmo certificado em toda parte:</strong> confirmado.</li>
+<li><strong>O seu é diferente e não está registrado publicamente:</strong> provavelmente interceptado. O SSL Checker indica a autoridade que emitiu o substituto e reconhece produtos de inspeção conhecidos.</li>
+<li><strong>As fontes divergem entre si:</strong> isso é informado, junto com o que cada caso pode significar.</li>
+</ul>
+        </div>
+        <figure class="shot">
+          <picture>
+            <source srcset="../img/pt-br/intercepted-dark.webp" media="(prefers-color-scheme: dark)" />
+            <img src="../img/pt-br/intercepted-light.webp" width="400" height="600" alt="O pop-up do SSL Checker avisando que a conexão provavelmente está sendo interceptada: o navegador recebeu um certificado de Contoso Inspection CA; os notários, um de Example TLS ECC CA 2026." loading="lazy" decoding="async" />
+          </picture>
+        </figure>
+      </section>
+
+      <section class="feature wrap" id="signed" aria-labelledby="signed-title">
+        <div>
+          <h2 id="signed-title">Respostas que ninguém no caminho pode falsificar</h2>
+          <p>Algo que intercepta seu tráfego também poderia tentar responder em nome de um notário. Não vai conseguir: o notário PlusPrivacy assina cada resposta com Ed25519, e o SSL Checker verifica a assinatura, um número aleatório enviado com cada pergunta e o site sobre o qual perguntou. Uma resposta forjada, reenviada ou redirecionada é recusada, e o pop-up avisa que algo a alterou.</p>
+<h3>Execute seu próprio notário</h3>
+<p>O notário é de código aberto: um pequeno serviço Node.js para Docker, protegido contra excesso de solicitações e contra solicitações a redes privadas. Instale-o em qualquer servidor, adicione o endereço e a chave dele em Opções, e as respostas dele serão verificadas da mesma forma.</p>
+<p><a href="https://github.com/Mastaleru/ssl-checker/tree/main/notary">Guia de instalação do notário</a></p>
+        </div>
+        <figure class="shot">
+          <picture>
+            <source srcset="../img/pt-br/confirmed-dark.webp" media="(prefers-color-scheme: dark)" />
+            <img src="../img/pt-br/confirmed-light.webp" width="400" height="600" alt="O pop-up do SSL Checker confirmando o certificado de www.example.com: o navegador, o notário PlusPrivacy com uma resposta assinada e um notário na Virginia veem impressões digitais idênticas." loading="lazy" decoding="async" />
+          </picture>
+        </figure>
+      </section>
+
+      <section class="feature wrap" id="debugger" aria-labelledby="debugger-title">
+        <div>
+          <h2 id="debugger-title">Você decide quando usar o depurador</h2>
+          <p>O Chrome não tem uma API de extensões para o certificado de uma página carregada, então o SSL Checker anexa o depurador do Chrome à guia por cerca de um segundo para lê-lo, e nesse meio-tempo o Chrome mostra a barra de depuração. Em Opções, você escolhe quando isso acontece:</p>
+<ul>
+<li><strong>Sempre</strong> que você abrir o pop-up</li>
+<li><strong>Sob demanda,</strong> com um clique no pop-up</li>
+<li><strong>Nunca:</strong> só os notários são consultados</li>
+</ul>
+<h3>Ele memoriza os sites que você verifica</h3>
+<p>O SSL Checker memoriza qual autoridade certificadora cada site usa e avisa você quando um site conhecido aparece de repente com outra, por exemplo em uma nova rede Wi-Fi. Essa memória fica no seu dispositivo, nunca é usada em janelas anônimas e pode ser desativada ou apagada em Opções.</p>
+        </div>
+        <figure class="shot wide">
+          <picture>
+            <source srcset="../img/pt-br/options-dark.webp" media="(prefers-color-scheme: dark)" />
+            <img src="../img/pt-br/options-light.webp" width="480" height="675" alt="As opções do SSL Checker: leitura no navegador sempre, sob demanda ou nunca, e a memória de sites com 37 sites memorizados." loading="lazy" decoding="async" />
+          </picture>
+        </figure>
+      </section>
+
+      <section class="privacy wrap" id="privacy" aria-labelledby="privacy-title">
+        <div>
+          <h2 id="privacy-title">Privacidade desde a concepção</h2>
+          <ul class="checks">
+            <li>Nada é lido nem enviado até você concordar no pop-up.</li>
+            <li>Só o nome do host e a porta do site saem do seu dispositivo, no corpo de uma solicitação HTTPS aos notários que você usa.</li>
+            <li>O notário PlusPrivacy não guarda registro dos sites verificados. Você pode desativá-lo ou consultar só notários que você mesmo executa.</li>
+            <li>Sem estatísticas de uso, sem rastreamento, sem conta. A memória de sites nunca sai do seu dispositivo.</li>
+            <li>Este site também não tem estatísticas de uso e não carrega nada de outros servidores.</li>
+          </ul>
+          <p><a href="privacy/">Leia a política de privacidade</a></p>
+        </div>
+        <figure class="request">
+          <figcaption>Tudo o que um notário recebe sobre o site que você verifica:</figcaption>
+          <pre><code>POST /v1/cert
+Content-Type: application/json
+
+{
+  "host": "www.example.com",
+  "port": 443,
+  "nonce": "Xq3MpTb0vR9kLs2eWn5yZA"
+}</code></pre>
+        </figure>
+      </section>
+    </main>
+
+    <footer class="site-foot">
+      <div class="foot-grid wrap">
+        <div class="foot-brand">
+          <img src="../icon.png" width="32" height="32" alt="" />
+          <div>
+            <strong>SSL Checker</strong>
+            <p>Veja o certificado real. Detecte interceptações.</p>
+          </div>
+        </div>
+        <ul class="foot-links">
+          <li><a href="https://chromewebstore.google.com/detail/ssl-checker/nbanpljakngdndmmekhogfliinegiapb?hl=pt-BR">Chrome Web Store</a></li>
+          <li><a href="privacy/">Política de privacidade</a></li>
+          <li><a href="https://github.com/Mastaleru/ssl-checker">Código-fonte</a></li>
+          <li><a href="https://github.com/Mastaleru/ssl-checker/tree/main/notary">Executar um notário</a></li>
+          <li><a href="mailto:mastaleru.rafael@gmail.com">Contato</a></li>
+          <li><a href="https://www.linkedin.com/in/mastaleru/">LinkedIn</a></li>
+        </ul>
+        <ul class="foot-languages" aria-label="Idioma">
+          <li><a href="../de/?lang=de" hreflang="de" lang="de">Deutsch</a></li>
+          <li><a href="../?lang=en" hreflang="en" lang="en">English</a></li>
+          <li><a href="../es/?lang=es" hreflang="es" lang="es">Español</a></li>
+          <li><a href="../fr/?lang=fr" hreflang="fr" lang="fr">Français</a></li>
+          <li><a href="../it/?lang=it" hreflang="it" lang="it">Italiano</a></li>
+          <li><a href="../nl/?lang=nl" hreflang="nl" lang="nl">Nederlands</a></li>
+          <li><a href="../pl/?lang=pl" hreflang="pl" lang="pl">Polski</a></li>
+          <li><a href="./?lang=pt-br" hreflang="pt-BR" lang="pt-BR" aria-current="page">Português (Brasil)</a></li>
+          <li><a href="../ro/?lang=ro" hreflang="ro" lang="ro">Română</a></li>
+          <li><a href="../tr/?lang=tr" hreflang="tr" lang="tr">Türkçe</a></li>
+          <li><a href="../uk/?lang=uk" hreflang="uk" lang="uk">Українська</a></li>
+          <li><a href="../ja/?lang=ja" hreflang="ja" lang="ja">日本語</a></li>
+          <li><a href="../ko/?lang=ko" hreflang="ko" lang="ko">한국어</a></li>
+          <li><a href="../zh-cn/?lang=zh-cn" hreflang="zh-CN" lang="zh-CN">简体中文</a></li>
+        </ul>
+        <p class="copy">© 2026 Rafael Mastaleru</p>
+      </div>
+    </footer>
+  </body>
+</html>

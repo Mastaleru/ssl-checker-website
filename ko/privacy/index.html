@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ko" data-root="../../" data-page="privacy/">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SSL Checker 개인정보처리방침</title>
+    <meta name="description" content="SSL Checker 확장 프로그램과 PlusPrivacy 공증 서버가 읽고, 보내고, 보관하는 정보." />
+    <link rel="canonical" href="https://sslchecker.plusprivacy.com/ko/privacy/" />
+    <link rel="alternate" hreflang="de" href="https://sslchecker.plusprivacy.com/de/privacy/" />
+    <link rel="alternate" hreflang="en" href="https://sslchecker.plusprivacy.com/privacy/" />
+    <link rel="alternate" hreflang="es" href="https://sslchecker.plusprivacy.com/es/privacy/" />
+    <link rel="alternate" hreflang="fr" href="https://sslchecker.plusprivacy.com/fr/privacy/" />
+    <link rel="alternate" hreflang="it" href="https://sslchecker.plusprivacy.com/it/privacy/" />
+    <link rel="alternate" hreflang="nl" href="https://sslchecker.plusprivacy.com/nl/privacy/" />
+    <link rel="alternate" hreflang="pl" href="https://sslchecker.plusprivacy.com/pl/privacy/" />
+    <link rel="alternate" hreflang="pt-BR" href="https://sslchecker.plusprivacy.com/pt-br/privacy/" />
+    <link rel="alternate" hreflang="ro" href="https://sslchecker.plusprivacy.com/ro/privacy/" />
+    <link rel="alternate" hreflang="tr" href="https://sslchecker.plusprivacy.com/tr/privacy/" />
+    <link rel="alternate" hreflang="uk" href="https://sslchecker.plusprivacy.com/uk/privacy/" />
+    <link rel="alternate" hreflang="ja" href="https://sslchecker.plusprivacy.com/ja/privacy/" />
+    <link rel="alternate" hreflang="ko" href="https://sslchecker.plusprivacy.com/ko/privacy/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://sslchecker.plusprivacy.com/zh-cn/privacy/" />
+    <link rel="alternate" hreflang="x-default" href="https://sslchecker.plusprivacy.com/privacy/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SSL Checker" />
+    <meta property="og:title" content="SSL Checker 개인정보처리방침" />
+    <meta property="og:description" content="SSL Checker 확장 프로그램과 PlusPrivacy 공증 서버가 읽고, 보내고, 보관하는 정보." />
+    <meta property="og:url" content="https://sslchecker.plusprivacy.com/ko/privacy/" />
+    <meta property="og:image" content="https://sslchecker.plusprivacy.com/img/og-ko.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f5f7fa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1726" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/png" href="../../icon.png" />
+    <link rel="preload" href="../../fonts/atkinson-hyperlegible-next-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="../../style.css" />
+    <script>
+      // An English page sends a visitor whose browser prefers another of the site's
+      // languages to that language; a language picked in the menu wins from then on.
+      (function () {
+        var html = document.documentElement;
+        var languages = ["de","en","es","fr","it","nl","pl","pt-br","ro","tr","uk","ja","ko","zh-cn"];
+        var page = html.lang.toLowerCase();
+        var url = new URL(location.href);
+        var choice = (url.searchParams.get('lang') || '').toLowerCase();
+        function match(tag) {
+          var base = tag.split('-')[0];
+          if (languages.indexOf(tag) >= 0) return tag;
+          if (base === 'zh') return /-(hant|tw|hk|mo)(-|$)/.test(tag) || languages.indexOf('zh-cn') < 0 ? null : 'zh-cn';
+          if (base === 'pt') return languages.indexOf('pt-br') >= 0 ? 'pt-br' : null;
+          return languages.indexOf(base) >= 0 ? base : null;
+        }
+        try {
+          if (languages.indexOf(choice) >= 0) {
+            localStorage.setItem('lang', choice);
+          } else {
+            choice = localStorage.getItem('lang');
+          }
+        } catch (e) {}
+        if (languages.indexOf(choice) < 0) choice = null;
+        if (!choice && page === 'en') {
+          var tags = navigator.languages || [navigator.language || ''];
+          for (var i = 0; i < tags.length && !choice; i++) choice = match(String(tags[i]).toLowerCase());
+        }
+        if (choice && choice !== page) {
+          var target = html.dataset.root + (choice === 'en' ? '' : choice + '/') + html.dataset.page;
+          location.replace(new URL(target, location.href).href + location.hash);
+        } else if (url.searchParams.has('lang')) {
+          url.searchParams.delete('lang');
+          history.replaceState(null, '', url.pathname + url.search + url.hash);
+        }
+      })();
+      // The language menu closes like other menus: on a click outside it, or on Escape.
+      document.addEventListener('click', function (event) {
+        var menu = document.querySelector('.lang-menu[open]');
+        if (menu && !menu.contains(event.target)) menu.open = false;
+      });
+      document.addEventListener('keydown', function (event) {
+        var menu = document.querySelector('.lang-menu[open]');
+        if (menu && event.key === 'Escape') {
+          menu.open = false;
+          menu.querySelector('summary').focus();
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">본문 바로가기</a>
+    <header class="site-head wrap">
+      <a class="brand" href="../"><img src="../../icon.png" width="32" height="32" alt="" />SSL Checker</a>
+      <nav class="site-nav" aria-label="주 메뉴">
+        <a class="optional" href="../#interception">작동 방식</a>
+        <a class="optional" href="../#privacy">개인정보 보호</a>
+        <a class="optional" href="https://github.com/Mastaleru/ssl-checker">소스 코드</a>
+        <details class="lang-menu">
+          <summary aria-label="언어: 한국어"><svg class="globe" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6" /><path d="M3 12h18M12 3c2.6 2.5 3.9 5.5 3.9 9s-1.3 6.5-3.9 9c-2.6-2.5-3.9-5.5-3.9-9S9.4 5.5 12 3Z" fill="none" stroke="currentColor" stroke-width="1.6" /></svg><span>한국어</span></summary>
+          <ul style="--rows: 7">
+            <li><a href="../../de/privacy/?lang=de" hreflang="de" lang="de">Deutsch</a></li>
+            <li><a href="../../privacy/?lang=en" hreflang="en" lang="en">English</a></li>
+            <li><a href="../../es/privacy/?lang=es" hreflang="es" lang="es">Español</a></li>
+            <li><a href="../../fr/privacy/?lang=fr" hreflang="fr" lang="fr">Français</a></li>
+            <li><a href="../../it/privacy/?lang=it" hreflang="it" lang="it">Italiano</a></li>
+            <li><a href="../../nl/privacy/?lang=nl" hreflang="nl" lang="nl">Nederlands</a></li>
+            <li><a href="../../pl/privacy/?lang=pl" hreflang="pl" lang="pl">Polski</a></li>
+            <li><a href="../../pt-br/privacy/?lang=pt-br" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a></li>
+            <li><a href="../../ro/privacy/?lang=ro" hreflang="ro" lang="ro">Română</a></li>
+            <li><a href="../../tr/privacy/?lang=tr" hreflang="tr" lang="tr">Türkçe</a></li>
+            <li><a href="../../uk/privacy/?lang=uk" hreflang="uk" lang="uk">Українська</a></li>
+            <li><a href="../../ja/privacy/?lang=ja" hreflang="ja" lang="ja">日本語</a></li>
+            <li><a href="./?lang=ko" hreflang="ko" lang="ko" aria-current="page">한국어</a></li>
+            <li><a href="../../zh-cn/privacy/?lang=zh-cn" hreflang="zh-CN" lang="zh-CN">简体中文</a></li>
+          </ul>
+        </details>
+      </nav>
+    </header>
+    <main id="main" class="prose wrap">
+      <h1>개인정보처리방침</h1>
+      <p class="updated">최종 업데이트: 2026년 10월 30일</p>
+      <p class="translation-note">이 페이지는 번역본입니다. 영어 버전과 내용이 다를 경우 영어 버전이 우선합니다.</p>
+      <p>SSL Checker는 활성 탭에 열린 웹사이트의 TLS 인증서를 보여 주고, 이를 인터넷의 다른 위치에 있는 공증 서버가 보는 인증서와 비교하는 브라우저 확장 프로그램입니다.</p>
+      <p><strong>확장 프로그램이 읽는 정보.</strong> 팝업을 열 때만, 그리고 팝업에서 동의한 후에만 다음 정보를 읽습니다. 활성 탭의 주소(검사할 사이트를 알기 위해)와, 브라우저에서 읽기가 사용 설정된 경우 Chrome의 디버거 인터페이스를 통해 읽은 해당 탭의 인증서 체인 및 연결 매개변수입니다. 페이지 콘텐츠, 쿠키, 비밀번호, 양식 데이터, 다른 탭 또는 인터넷 사용 기록은 읽지 않습니다.</p>
+      <p><strong>기기 밖으로 전송되는 정보.</strong> 동의하기 전에는 아무것도 전송되지 않습니다. 동의한 후 사이트를 검사하면 해당 사이트의 호스트 이름과 포트가, 사용 중지하지 않은 경우 SSL Checker 개발자가 운영하는 PlusPrivacy 공증 서버(<code>notary.plusprivacy.com</code>)로 전송되고, 옵션에서 추가한 공증 서버에도 전송됩니다. 이때 해당 서버에 입력한 액세스 토큰이 있으면 함께 전송됩니다. 각 요청에는 응답이 그 요청에 대해 만들어졌는지 확인하는 데만 사용되는 난수도 포함됩니다. 그 밖에 개발자에게 전송되는 정보는 없습니다. 분석, 추적, 광고 및 계정은 없습니다.</p>
+      <p><strong>PlusPrivacy 공증 서버.</strong> 공증 서버는 호스트 이름과 포트를 해당 사이트에 연결하여 사이트가 제시하는 인증서를 반환하는 데만 사용합니다. 디스크에는 아무것도 쓰지 않으며 검사한 사이트에 대한 기록을 남기지 않습니다. 요청마다 같은 사이트에 다시 연결하지 않도록 각 응답을 메모리에 60초 동안 보관하며, 남용을 막기 위해 네트워크 주소별로 요청 수를 셉니다. 남용하는 주소는 최대 24시간 동안 차단되며 공증 서버의 로그에 기록됩니다. 공증 서버로 보내는 모든 요청은 암호화(HTTPS)되며, 사이트 이름은 요청 본문에 담겨 전송되고 요청 주소에는 절대 포함되지 않습니다. 공증 서버는 각 응답에 서명하므로 확장 프로그램은 응답이 전송 중에 변경되지 않았는지 확인할 수 있습니다.</p>
+      <p><strong>저장되는 정보.</strong> 사용자의 동의와 설정(PlusPrivacy 공증 서버 사용 여부, 읽기 모드, 공증 서버 주소, 토큰 및 키, 대기 시간)은 기기의 <code>chrome.storage.local</code>에 저장됩니다. 각 탭의 마지막 검사 결과는 <code>chrome.storage.session</code>에 보관되며, 탭이나 브라우저를 닫으면 삭제됩니다. 사이트 기억이 사용 설정된 경우(브라우저에서 인증서를 읽을 때의 기본값) 검사한 각 사이트의 호스트 이름과 해당 사이트가 사용한 인증 기관(이름, 키 지문, 날짜, 검사 횟수)도 <code>chrome.storage.local</code>에 저장되며, 이는 사이트가 갑자기 다른 인증 기관을 제시할 때 SSL Checker가 경고할 수 있도록 하기 위한 것입니다. 시크릿 창에서는 아무것도 기록되지 않습니다. 이 데이터는 기기 밖으로 나가지 않습니다. 옵션에서 사이트 기억을 사용 중지하거나 삭제할 수 있으며, 400일 동안 검사하지 않은 사이트는 자동으로 삭제됩니다.</p>
+      <p><strong>제3자.</strong> 사용자가 추가하는 공증 서버는 사용자 본인 또는 사용자가 선택한 운영자가 운영하며, 해당 운영자의 정책이 적용됩니다. SSL Checker가 처리하는 데이터의 사용은 제한적 사용(Limited Use) 요구사항을 포함한 Chrome Web Store 사용자 데이터 정책을 준수합니다.</p>
+      <p><strong>문의.</strong> <a href="mailto:mastaleru.rafael@gmail.com">mastaleru.rafael@gmail.com</a> · <a href="https://www.linkedin.com/in/mastaleru/">LinkedIn</a></p>
+    </main>
+
+    <footer class="site-foot">
+      <div class="foot-grid wrap">
+        <div class="foot-brand">
+          <img src="../../icon.png" width="32" height="32" alt="" />
+          <div>
+            <strong>SSL Checker</strong>
+            <p>실제 인증서를 보고 가로채기를 감지하세요.</p>
+          </div>
+        </div>
+        <ul class="foot-links">
+          <li><a href="https://chromewebstore.google.com/detail/ssl-checker/nbanpljakngdndmmekhogfliinegiapb?hl=ko">Chrome Web Store</a></li>
+          <li><a href="./">개인정보처리방침</a></li>
+          <li><a href="https://github.com/Mastaleru/ssl-checker">소스 코드</a></li>
+          <li><a href="https://github.com/Mastaleru/ssl-checker/tree/main/notary">공증 서버 운영하기</a></li>
+          <li><a href="mailto:mastaleru.rafael@gmail.com">문의</a></li>
+          <li><a href="https://www.linkedin.com/in/mastaleru/">LinkedIn</a></li>
+        </ul>
+        <ul class="foot-languages" aria-label="언어">
+          <li><a href="../../de/privacy/?lang=de" hreflang="de" lang="de">Deutsch</a></li>
+          <li><a href="../../privacy/?lang=en" hreflang="en" lang="en">English</a></li>
+          <li><a href="../../es/privacy/?lang=es" hreflang="es" lang="es">Español</a></li>
+          <li><a href="../../fr/privacy/?lang=fr" hreflang="fr" lang="fr">Français</a></li>
+          <li><a href="../../it/privacy/?lang=it" hreflang="it" lang="it">Italiano</a></li>
+          <li><a href="../../nl/privacy/?lang=nl" hreflang="nl" lang="nl">Nederlands</a></li>
+          <li><a href="../../pl/privacy/?lang=pl" hreflang="pl" lang="pl">Polski</a></li>
+          <li><a href="../../pt-br/privacy/?lang=pt-br" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a></li>
+          <li><a href="../../ro/privacy/?lang=ro" hreflang="ro" lang="ro">Română</a></li>
+          <li><a href="../../tr/privacy/?lang=tr" hreflang="tr" lang="tr">Türkçe</a></li>
+          <li><a href="../../uk/privacy/?lang=uk" hreflang="uk" lang="uk">Українська</a></li>
+          <li><a href="../../ja/privacy/?lang=ja" hreflang="ja" lang="ja">日本語</a></li>
+          <li><a href="./?lang=ko" hreflang="ko" lang="ko" aria-current="page">한국어</a></li>
+          <li><a href="../../zh-cn/privacy/?lang=zh-cn" hreflang="zh-CN" lang="zh-CN">简体中文</a></li>
+        </ul>
+        <p class="copy">© 2026 Rafael Mastaleru</p>
+      </div>
+    </footer>
+  </body>
+</html>

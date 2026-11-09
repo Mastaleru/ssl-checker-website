@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="ja" data-root="../" data-page="">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SSL Checker: 実際の証明書を確認し、HTTPS の傍受を見破る</title>
+    <meta name="description" content="現在のサイトの実際の TLS 証明書を表示し、独立した公証サーバーと比較して傍受を検出します。" />
+    <link rel="canonical" href="https://sslchecker.plusprivacy.com/ja/" />
+    <link rel="alternate" hreflang="de" href="https://sslchecker.plusprivacy.com/de/" />
+    <link rel="alternate" hreflang="en" href="https://sslchecker.plusprivacy.com/" />
+    <link rel="alternate" hreflang="es" href="https://sslchecker.plusprivacy.com/es/" />
+    <link rel="alternate" hreflang="fr" href="https://sslchecker.plusprivacy.com/fr/" />
+    <link rel="alternate" hreflang="it" href="https://sslchecker.plusprivacy.com/it/" />
+    <link rel="alternate" hreflang="nl" href="https://sslchecker.plusprivacy.com/nl/" />
+    <link rel="alternate" hreflang="pl" href="https://sslchecker.plusprivacy.com/pl/" />
+    <link rel="alternate" hreflang="pt-BR" href="https://sslchecker.plusprivacy.com/pt-br/" />
+    <link rel="alternate" hreflang="ro" href="https://sslchecker.plusprivacy.com/ro/" />
+    <link rel="alternate" hreflang="tr" href="https://sslchecker.plusprivacy.com/tr/" />
+    <link rel="alternate" hreflang="uk" href="https://sslchecker.plusprivacy.com/uk/" />
+    <link rel="alternate" hreflang="ja" href="https://sslchecker.plusprivacy.com/ja/" />
+    <link rel="alternate" hreflang="ko" href="https://sslchecker.plusprivacy.com/ko/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://sslchecker.plusprivacy.com/zh-cn/" />
+    <link rel="alternate" hreflang="x-default" href="https://sslchecker.plusprivacy.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SSL Checker" />
+    <meta property="og:title" content="SSL Checker: 実際の証明書を確認し、HTTPS の傍受を見破る" />
+    <meta property="og:description" content="現在のサイトの実際の TLS 証明書を表示し、独立した公証サーバーと比較して傍受を検出します。" />
+    <meta property="og:url" content="https://sslchecker.plusprivacy.com/ja/" />
+    <meta property="og:image" content="https://sslchecker.plusprivacy.com/img/og-ja.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f5f7fa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1726" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/png" href="../icon.png" />
+    <link rel="preload" href="../fonts/atkinson-hyperlegible-next-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="../style.css" />
+    <script>
+      // An English page sends a visitor whose browser prefers another of the site's
+      // languages to that language; a language picked in the menu wins from then on.
+      (function () {
+        var html = document.documentElement;
+        var languages = ["de","en","es","fr","it","nl","pl","pt-br","ro","tr","uk","ja","ko","zh-cn"];
+        var page = html.lang.toLowerCase();
+        var url = new URL(location.href);
+        var choice = (url.searchParams.get('lang') || '').toLowerCase();
+        function match(tag) {
+          var base = tag.split('-')[0];
+          if (languages.indexOf(tag) >= 0) return tag;
+          if (base === 'zh') return /-(hant|tw|hk|mo)(-|$)/.test(tag) || languages.indexOf('zh-cn') < 0 ? null : 'zh-cn';
+          if (base === 'pt') return languages.indexOf('pt-br') >= 0 ? 'pt-br' : null;
+          return languages.indexOf(base) >= 0 ? base : null;
+        }
+        try {
+          if (languages.indexOf(choice) >= 0) {
+            localStorage.setItem('lang', choice);
+          } else {
+            choice = localStorage.getItem('lang');
+          }
+        } catch (e) {}
+        if (languages.indexOf(choice) < 0) choice = null;
+        if (!choice && page === 'en') {
+          var tags = navigator.languages || [navigator.language || ''];
+          for (var i = 0; i < tags.length && !choice; i++) choice = match(String(tags[i]).toLowerCase());
+        }
+        if (choice && choice !== page) {
+          var target = html.dataset.root + (choice === 'en' ? '' : choice + '/') + html.dataset.page;
+          location.replace(new URL(target, location.href).href + location.hash);
+        } else if (url.searchParams.has('lang')) {
+          url.searchParams.delete('lang');
+          history.replaceState(null, '', url.pathname + url.search + url.hash);
+        }
+      })();
+      // The language menu closes like other menus: on a click outside it, or on Escape.
+      document.addEventListener('click', function (event) {
+        var menu = document.querySelector('.lang-menu[open]');
+        if (menu && !menu.contains(event.target)) menu.open = false;
+      });
+      document.addEventListener('keydown', function (event) {
+        var menu = document.querySelector('.lang-menu[open]');
+        if (menu && event.key === 'Escape') {
+          menu.open = false;
+          menu.querySelector('summary').focus();
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">コンテンツにスキップ</a>
+    <header class="site-head wrap">
+      <a class="brand" href="./"><img src="../icon.png" width="32" height="32" alt="" />SSL Checker</a>
+      <nav class="site-nav" aria-label="メイン">
+        <a class="optional" href="#interception">仕組み</a>
+        <a class="optional" href="#privacy">プライバシー</a>
+        <a class="optional" href="https://github.com/Mastaleru/ssl-checker">ソースコード</a>
+        <details class="lang-menu">
+          <summary aria-label="言語: 日本語"><svg class="globe" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6" /><path d="M3 12h18M12 3c2.6 2.5 3.9 5.5 3.9 9s-1.3 6.5-3.9 9c-2.6-2.5-3.9-5.5-3.9-9S9.4 5.5 12 3Z" fill="none" stroke="currentColor" stroke-width="1.6" /></svg><span>日本語</span></summary>
+          <ul style="--rows: 7">
+            <li><a href="../de/?lang=de" hreflang="de" lang="de">Deutsch</a></li>
+            <li><a href="../?lang=en" hreflang="en" lang="en">English</a></li>
+            <li><a href="../es/?lang=es" hreflang="es" lang="es">Español</a></li>
+            <li><a href="../fr/?lang=fr" hreflang="fr" lang="fr">Français</a></li>
+            <li><a href="../it/?lang=it" hreflang="it" lang="it">Italiano</a></li>
+            <li><a href="../nl/?lang=nl" hreflang="nl" lang="nl">Nederlands</a></li>
+            <li><a href="../pl/?lang=pl" hreflang="pl" lang="pl">Polski</a></li>
+            <li><a href="../pt-br/?lang=pt-br" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a></li>
+            <li><a href="../ro/?lang=ro" hreflang="ro" lang="ro">Română</a></li>
+            <li><a href="../tr/?lang=tr" hreflang="tr" lang="tr">Türkçe</a></li>
+            <li><a href="../uk/?lang=uk" hreflang="uk" lang="uk">Українська</a></li>
+            <li><a href="./?lang=ja" hreflang="ja" lang="ja" aria-current="page">日本語</a></li>
+            <li><a href="../ko/?lang=ko" hreflang="ko" lang="ko">한국어</a></li>
+            <li><a href="../zh-cn/?lang=zh-cn" hreflang="zh-CN" lang="zh-CN">简体中文</a></li>
+          </ul>
+        </details>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="hero wrap" aria-labelledby="title">
+        <div>
+          <h1 id="title">ブラウザが実際に受け取った証明書を確認</h1>
+          <p class="lead">SSL Checker は、タブで開いているサイトの証明書を Chrome から直接読み取り、インターネット上の別の場所から独立した公証サーバーが見ている証明書と比較します。両者が異なる場合は、ブラウザとサイトの間にある何かが証明書を置き換えています。</p>
+          <div class="actions">
+            <a class="button primary" href="https://chromewebstore.google.com/detail/ssl-checker/nbanpljakngdndmmekhogfliinegiapb?hl=ja">Chrome に追加</a>
+            <a class="button" href="https://github.com/Mastaleru/ssl-checker">GitHub でソースコードを見る</a>
+          </div>
+          <p class="note">無料のオープンソース。アカウント不要、アナリティクスなし。</p>
+        </div>
+        <figure class="compare" aria-labelledby="compare-caption">
+          <div class="network" role="radiogroup" aria-labelledby="network-label">
+            <span id="network-label">お使いのネットワーク</span>
+            <span class="seg">
+              <label><input type="radio" name="network" value="ordinary" checked />通常</label>
+              <label><input type="radio" name="network" value="inspected" />HTTPS を検査</label>
+            </span>
+          </div>
+          <div class="verdict">
+            <svg class="shield is-good" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6 19.4 5.4v6.1c0 4.5-3.1 8.2-7.4 9.8-4.3-1.6-7.4-5.3-7.4-9.8V5.4L12 2.6Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" /><path d="m8.7 12 2.3 2.3 4.4-4.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg><svg class="shield is-bad" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6 19.4 5.4v6.1c0 4.5-3.1 8.2-7.4 9.8-4.3-1.6-7.4-5.3-7.4-9.8V5.4L12 2.6Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" /><path d="m9.6 9.4 4.8 4.8m0-4.8-4.8 4.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+            <div>
+              <p class="verdict-title"><span class="is-good">2 件の外部ソースで確認済み</span><span class="is-bad">接続が傍受されている可能性が高いです</span></p>
+              <p class="verdict-body"><span class="is-good">お使いのブラウザは、外部ソースから見えるものと同じ証明書を受け取っています。途中で証明書は置き換えられていません。</span><span class="is-bad">お使いのブラウザは Contoso Inspection CA が発行した証明書を受け取っていますが、外部ソースからは Example TLS ECC CA 2026 が発行した証明書が見えています。</span></p>
+            </div>
+          </div>
+          <ul class="witnesses">
+            <li class="witness you">
+              <span class="who">お使いのブラウザ</span>
+              <span class="print"><svg class="bars" viewBox="0 0 158 20" width="316" height="40" aria-hidden="true"><rect x="0" y="0" width="3" height="20" rx="0.8" style="--i: 0; --a: 0.9; --b: 0.95" /><rect x="5" y="0" width="3" height="20" rx="0.8" style="--i: 1; --a: 0.15; --b: 0.85" /><rect x="10" y="0" width="3" height="20" rx="0.8" style="--i: 2; --a: 0.65; --b: 0.7" /><rect x="15" y="0" width="3" height="20" rx="0.8" style="--i: 3; --a: 0.8; --b: 0.75" /><rect x="20" y="0" width="3" height="20" rx="0.8" style="--i: 4; --a: 0.2; --b: 0.85" /><rect x="25" y="0" width="3" height="20" rx="0.8" style="--i: 5; --a: 0.5; --b: 0.85" /><rect x="30" y="0" width="3" height="20" rx="0.8" style="--i: 6; --a: 0.25; --b: 0.65" /><rect x="35" y="0" width="3" height="20" rx="0.8" style="--i: 7; --a: 0.25; --b: 0.45" /><rect x="40" y="0" width="3" height="20" rx="0.8" style="--i: 8; --a: 0.25; --b: 0.65" /><rect x="45" y="0" width="3" height="20" rx="0.8" style="--i: 9; --a: 0.6; --b: 0.55" /><rect x="50" y="0" width="3" height="20" rx="0.8" style="--i: 10; --a: 0.25; --b: 0.7" /><rect x="55" y="0" width="3" height="20" rx="0.8" style="--i: 11; --a: 0.65; --b: 0.55" /><rect x="60" y="0" width="3" height="20" rx="0.8" style="--i: 12; --a: 0.2; --b: 0.35" /><rect x="65" y="0" width="3" height="20" rx="0.8" style="--i: 13; --a: 0.75; --b: 0.85" /><rect x="70" y="0" width="3" height="20" rx="0.8" style="--i: 14; --a: 1; --b: 0.3" /><rect x="75" y="0" width="3" height="20" rx="0.8" style="--i: 15; --a: 0.2; --b: 0.3" /><rect x="80" y="0" width="3" height="20" rx="0.8" style="--i: 16; --a: 0.55; --b: 0.95" /><rect x="85" y="0" width="3" height="20" rx="0.8" style="--i: 17; --a: 0.7; --b: 0.15" /><rect x="90" y="0" width="3" height="20" rx="0.8" style="--i: 18; --a: 0.85; --b: 0.65" /><rect x="95" y="0" width="3" height="20" rx="0.8" style="--i: 19; --a: 0.45; --b: 0.85" /><rect x="100" y="0" width="3" height="20" rx="0.8" style="--i: 20; --a: 0.8; --b: 0.8" /><rect x="105" y="0" width="3" height="20" rx="0.8" style="--i: 21; --a: 0.75; --b: 0.35" /><rect x="110" y="0" width="3" height="20" rx="0.8" style="--i: 22; --a: 0.5; --b: 0.8" /><rect x="115" y="0" width="3" height="20" rx="0.8" style="--i: 23; --a: 1; --b: 0.85" /><rect x="120" y="0" width="3" height="20" rx="0.8" style="--i: 24; --a: 0.9; --b: 0.45" /><rect x="125" y="0" width="3" height="20" rx="0.8" style="--i: 25; --a: 0.65; --b: 0.65" /><rect x="130" y="0" width="3" height="20" rx="0.8" style="--i: 26; --a: 0.75; --b: 0.35" /><rect x="135" y="0" width="3" height="20" rx="0.8" style="--i: 27; --a: 0.7; --b: 0.8" /><rect x="140" y="0" width="3" height="20" rx="0.8" style="--i: 28; --a: 0.6; --b: 0.2" /><rect x="145" y="0" width="3" height="20" rx="0.8" style="--i: 29; --a: 0.95; --b: 0.25" /><rect x="150" y="0" width="3" height="20" rx="0.8" style="--i: 30; --a: 0.2; --b: 0.2" /><rect x="155" y="0" width="3" height="20" rx="0.8" style="--i: 31; --a: 0.9; --b: 0.6" /></svg><span class="hex"><span class="is-good">E501 96C1</span><span class="is-bad">F4CD ACB7</span></span></span>
+            </li>
+            <li class="witness">
+              <span class="who">PlusPrivacy</span>
+              <span class="chip"><span class="is-good">同一</span><span class="is-bad">異なる証明書</span></span>
+              <span class="print"><svg class="bars" viewBox="0 0 158 20" width="316" height="40" aria-hidden="true"><rect x="0" y="2" width="3" height="18" rx="0.8" /><rect x="5" y="17" width="3" height="3" rx="0.8" /><rect x="10" y="7" width="3" height="13" rx="0.8" /><rect x="15" y="4" width="3" height="16" rx="0.8" /><rect x="20" y="16" width="3" height="4" rx="0.8" /><rect x="25" y="10" width="3" height="10" rx="0.8" /><rect x="30" y="15" width="3" height="5" rx="0.8" /><rect x="35" y="15" width="3" height="5" rx="0.8" /><rect x="40" y="15" width="3" height="5" rx="0.8" /><rect x="45" y="8" width="3" height="12" rx="0.8" /><rect x="50" y="15" width="3" height="5" rx="0.8" /><rect x="55" y="7" width="3" height="13" rx="0.8" /><rect x="60" y="16" width="3" height="4" rx="0.8" /><rect x="65" y="5" width="3" height="15" rx="0.8" /><rect x="70" y="0" width="3" height="20" rx="0.8" /><rect x="75" y="16" width="3" height="4" rx="0.8" /><rect x="80" y="9" width="3" height="11" rx="0.8" /><rect x="85" y="6" width="3" height="14" rx="0.8" /><rect x="90" y="3" width="3" height="17" rx="0.8" /><rect x="95" y="11" width="3" height="9" rx="0.8" /><rect x="100" y="4" width="3" height="16" rx="0.8" /><rect x="105" y="5" width="3" height="15" rx="0.8" /><rect x="110" y="10" width="3" height="10" rx="0.8" /><rect x="115" y="0" width="3" height="20" rx="0.8" /><rect x="120" y="2" width="3" height="18" rx="0.8" /><rect x="125" y="7" width="3" height="13" rx="0.8" /><rect x="130" y="5" width="3" height="15" rx="0.8" /><rect x="135" y="6" width="3" height="14" rx="0.8" /><rect x="140" y="8" width="3" height="12" rx="0.8" /><rect x="145" y="1" width="3" height="19" rx="0.8" /><rect x="150" y="16" width="3" height="4" rx="0.8" /><rect x="155" y="2" width="3" height="18" rx="0.8" /></svg><span class="hex">E501 96C1</span></span>
+              <span class="meta">署名付きの応答</span>
+            </li>
+            <li class="witness">
+              <span class="who">Virginia</span>
+              <span class="chip"><span class="is-good">同一</span><span class="is-bad">異なる証明書</span></span>
+              <span class="print"><svg class="bars" viewBox="0 0 158 20" width="316" height="40" aria-hidden="true"><rect x="0" y="2" width="3" height="18" rx="0.8" /><rect x="5" y="17" width="3" height="3" rx="0.8" /><rect x="10" y="7" width="3" height="13" rx="0.8" /><rect x="15" y="4" width="3" height="16" rx="0.8" /><rect x="20" y="16" width="3" height="4" rx="0.8" /><rect x="25" y="10" width="3" height="10" rx="0.8" /><rect x="30" y="15" width="3" height="5" rx="0.8" /><rect x="35" y="15" width="3" height="5" rx="0.8" /><rect x="40" y="15" width="3" height="5" rx="0.8" /><rect x="45" y="8" width="3" height="12" rx="0.8" /><rect x="50" y="15" width="3" height="5" rx="0.8" /><rect x="55" y="7" width="3" height="13" rx="0.8" /><rect x="60" y="16" width="3" height="4" rx="0.8" /><rect x="65" y="5" width="3" height="15" rx="0.8" /><rect x="70" y="0" width="3" height="20" rx="0.8" /><rect x="75" y="16" width="3" height="4" rx="0.8" /><rect x="80" y="9" width="3" height="11" rx="0.8" /><rect x="85" y="6" width="3" height="14" rx="0.8" /><rect x="90" y="3" width="3" height="17" rx="0.8" /><rect x="95" y="11" width="3" height="9" rx="0.8" /><rect x="100" y="4" width="3" height="16" rx="0.8" /><rect x="105" y="5" width="3" height="15" rx="0.8" /><rect x="110" y="10" width="3" height="10" rx="0.8" /><rect x="115" y="0" width="3" height="20" rx="0.8" /><rect x="120" y="2" width="3" height="18" rx="0.8" /><rect x="125" y="7" width="3" height="13" rx="0.8" /><rect x="130" y="5" width="3" height="15" rx="0.8" /><rect x="135" y="6" width="3" height="14" rx="0.8" /><rect x="140" y="8" width="3" height="12" rx="0.8" /><rect x="145" y="1" width="3" height="19" rx="0.8" /><rect x="150" y="16" width="3" height="4" rx="0.8" /><rect x="155" y="2" width="3" height="18" rx="0.8" /></svg><span class="hex">E501 96C1</span></span>
+              <span class="meta">Ashburn, US</span>
+            </li>
+          </ul>
+          <figcaption id="compare-caption">各バーのパターンは、証明書の SHA-256 フィンガープリントを拡張機能と同じ方法で描いたものです。同じ証明書からは常に同じバーが描かれます。</figcaption>
+        </figure>
+      </section>
+
+      <section class="feature wrap" id="details" aria-labelledby="details-title">
+        <div>
+          <h2 id="details-title">接続の詳細をすべて表示</h2>
+          <p>このタブで Chrome が受け取った内容を、サーバーから改めて取得するのではなく、ブラウザ自体から読み取ります。</p>
+<ul>
+<li>対象となる名前、発行元、有効期間と残り日数、認証レベル（DV、OV、EV）</li>
+<li>TLS バージョン、鍵交換（ポスト量子ハイブリッド方式を含む）、暗号方式、Encrypted Client Hello</li>
+<li>Certificate Transparency のステータスと署名付き証明書タイムスタンプ（SCT）</li>
+<li>完全な証明書チェーン、フィンガープリント、すべての拡張領域。PEM のコピーやチェーンのダウンロードもできます。</li>
+</ul>
+        </div>
+        <figure class="shot">
+          <picture>
+            <source srcset="../img/ja/details-dark.webp" media="(prefers-color-scheme: dark)" />
+            <img src="../img/ja/details-light.webp" width="400" height="600" alt="www.example.com の Certificate Transparency、証明書チェーン、フィンガープリントを表示している SSL Checker のポップアップ。" loading="lazy" decoding="async" />
+          </picture>
+        </figure>
+      </section>
+
+      <section class="feature wrap" id="interception" aria-labelledby="interception-title">
+        <div>
+          <h2 id="interception-title">HTTPS の傍受を見破る</h2>
+          <p>企業のプロキシ、ウイルス対策ソフトの HTTPS スキャン、公衆 Wi-Fi 上の攻撃者は、いずれも同じ仕組みで動作します。通信を復号し、独自の証明書をブラウザに渡すのです。ページは普段どおりに表示され、鍵アイコンもそのまま表示されます。</p>
+<p>SSL Checker は、PlusPrivacy 公証サーバーと追加したすべての公証サーバーに、同じサイトがどの証明書を提示しているかを問い合わせます。公証サーバーは、お使いのネットワーク上にあるものを経由せずに、インターネット上の別の場所から接続します。そのうえで、フィンガープリントを比較します:</p>
+<ul>
+<li><strong>どこでも同じ証明書:</strong> 確認済み。</li>
+<li><strong>お使いの証明書が異なり、公開ログに記録されていない:</strong> 傍受されている可能性が高い状態です。SSL Checker は置き換え用の証明書を発行した認証局の名前を表示し、既知のインスペクション製品を識別します。</li>
+<li><strong>ソース同士の結果が一致しない:</strong> その旨を、それぞれの場合に考えられる意味とともに報告します。</li>
+</ul>
+        </div>
+        <figure class="shot">
+          <picture>
+            <source srcset="../img/ja/intercepted-dark.webp" media="(prefers-color-scheme: dark)" />
+            <img src="../img/ja/intercepted-light.webp" width="400" height="600" alt="接続が傍受されている可能性が高いと警告している SSL Checker のポップアップ。ブラウザは Contoso Inspection CA の証明書を、公証サーバーは Example TLS ECC CA 2026 の証明書を受け取っています。" loading="lazy" decoding="async" />
+          </picture>
+        </figure>
+      </section>
+
+      <section class="feature wrap" id="signed" aria-labelledby="signed-title">
+        <div>
+          <h2 id="signed-title">途中で誰も偽造できない応答</h2>
+          <p>通信を傍受しているものが、公証サーバーになりすまして応答しようとすることも考えられます。しかし、それは通用しません。PlusPrivacy 公証サーバーはすべての応答に Ed25519 で署名し、SSL Checker はその署名に加えて、問い合わせごとに送る乱数と、問い合わせたサイトを検証します。偽造・リプレイ・転用された応答は拒否され、何かが応答を書き換えたことがポップアップに表示されます。</p>
+<h3>独自の公証サーバーを運用</h3>
+<p>公証サーバーはオープンソースです。Docker 用の小さな Node.js サービスで、大量のリクエストやプライベート ネットワークへのリクエストから保護されています。任意のサーバーにインストールし、オプション ページでアドレスと鍵を追加すれば、その応答も同じ方法で検証されます。</p>
+<p><a href="https://github.com/Mastaleru/ssl-checker/tree/main/notary">公証サーバーのインストール ガイド</a></p>
+        </div>
+        <figure class="shot">
+          <picture>
+            <source srcset="../img/ja/confirmed-dark.webp" media="(prefers-color-scheme: dark)" />
+            <img src="../img/ja/confirmed-light.webp" width="400" height="600" alt="www.example.com の証明書を確認した SSL Checker のポップアップ。ブラウザ、署名付きの応答を返した PlusPrivacy 公証サーバー、Virginia の公証サーバーで、同一のフィンガープリントが見えています。" loading="lazy" decoding="async" />
+          </picture>
+        </figure>
+      </section>
+
+      <section class="feature wrap" id="debugger" aria-labelledby="debugger-title">
+        <div>
+          <h2 id="debugger-title">デバッガを実行するタイミングを選べます</h2>
+          <p>Chrome には、読み込まれたページの証明書を取得する拡張機能用の API がありません。そのため SSL Checker は、証明書を読み取る約 1 秒間、Chrome のデバッガをタブにアタッチします。その間、Chrome にはデバッグ通知バーが表示されます。これをいつ行うかは、オプション ページで選べます:</p>
+<ul>
+<li><strong>毎回:</strong> ポップアップを開くたびに読み取ります</li>
+<li><strong>必要なときのみ:</strong> ポップアップでクリックしたときに読み取ります</li>
+<li><strong>読み取らない:</strong> 公証サーバーにのみ問い合わせます</li>
+</ul>
+<h3>確認したサイトを記憶</h3>
+<p>SSL Checker は各サイトが使用している認証局を記憶し、既知のサイトで突然別の認証局が使われたとき（新しい Wi-Fi ネットワークに接続したときなど）に警告します。この記憶はお使いのデバイス上にとどまり、シークレット ウィンドウでは使用されず、オプション ページでオフにしたり消去したりできます。</p>
+        </div>
+        <figure class="shot wide">
+          <picture>
+            <source srcset="../img/ja/options-dark.webp" media="(prefers-color-scheme: dark)" />
+            <img src="../img/ja/options-light.webp" width="480" height="675" alt="SSL Checker のオプション。ブラウザからの読み取りは毎回・必要なときのみ・読み取らないから選択でき、サイトの記憶には 37 件のサイトが記録されています。" loading="lazy" decoding="async" />
+          </picture>
+        </figure>
+      </section>
+
+      <section class="privacy wrap" id="privacy" aria-labelledby="privacy-title">
+        <div>
+          <h2 id="privacy-title">プライバシーを重視した設計</h2>
+          <ul class="checks">
+            <li>ポップアップで同意するまで、何も読み取らず、何も送信しません。</li>
+            <li>お使いのデバイスから送信されるのは、サイトのホスト名とポート番号だけです。これらは、使用している公証サーバーへの HTTPS リクエストの本文で送信されます。</li>
+            <li>PlusPrivacy 公証サーバーは、確認されたサイトの記録を残しません。この公証サーバーをオフにしたり、ご自身で運用する公証サーバーにのみ問い合わせたりすることもできます。</li>
+            <li>アナリティクスなし、トラッキングなし、アカウント不要。サイトの記憶がお使いのデバイスの外に出ることはありません。</li>
+            <li>このウェブサイトにもアナリティクスはなく、他のサーバーからは何も読み込みません。</li>
+          </ul>
+          <p><a href="privacy/">プライバシー ポリシーを読む</a></p>
+        </div>
+        <figure class="request">
+          <figcaption>確認するサイトについて公証サーバーが受け取る情報は、これですべてです:</figcaption>
+          <pre><code>POST /v1/cert
+Content-Type: application/json
+
+{
+  "host": "www.example.com",
+  "port": 443,
+  "nonce": "Xq3MpTb0vR9kLs2eWn5yZA"
+}</code></pre>
+        </figure>
+      </section>
+    </main>
+
+    <footer class="site-foot">
+      <div class="foot-grid wrap">
+        <div class="foot-brand">
+          <img src="../icon.png" width="32" height="32" alt="" />
+          <div>
+            <strong>SSL Checker</strong>
+            <p>実際の証明書を確認。傍受を見破る。</p>
+          </div>
+        </div>
+        <ul class="foot-links">
+          <li><a href="https://chromewebstore.google.com/detail/ssl-checker/nbanpljakngdndmmekhogfliinegiapb?hl=ja">Chrome Web Store</a></li>
+          <li><a href="privacy/">プライバシー ポリシー</a></li>
+          <li><a href="https://github.com/Mastaleru/ssl-checker">ソースコード</a></li>
+          <li><a href="https://github.com/Mastaleru/ssl-checker/tree/main/notary">公証サーバーを運用</a></li>
+          <li><a href="mailto:mastaleru.rafael@gmail.com">お問い合わせ</a></li>
+          <li><a href="https://www.linkedin.com/in/mastaleru/">LinkedIn</a></li>
+        </ul>
+        <ul class="foot-languages" aria-label="言語">
+          <li><a href="../de/?lang=de" hreflang="de" lang="de">Deutsch</a></li>
+          <li><a href="../?lang=en" hreflang="en" lang="en">English</a></li>
+          <li><a href="../es/?lang=es" hreflang="es" lang="es">Español</a></li>
+          <li><a href="../fr/?lang=fr" hreflang="fr" lang="fr">Français</a></li>
+          <li><a href="../it/?lang=it" hreflang="it" lang="it">Italiano</a></li>
+          <li><a href="../nl/?lang=nl" hreflang="nl" lang="nl">Nederlands</a></li>
+          <li><a href="../pl/?lang=pl" hreflang="pl" lang="pl">Polski</a></li>
+          <li><a href="../pt-br/?lang=pt-br" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a></li>
+          <li><a href="../ro/?lang=ro" hreflang="ro" lang="ro">Română</a></li>
+          <li><a href="../tr/?lang=tr" hreflang="tr" lang="tr">Türkçe</a></li>
+          <li><a href="../uk/?lang=uk" hreflang="uk" lang="uk">Українська</a></li>
+          <li><a href="./?lang=ja" hreflang="ja" lang="ja" aria-current="page">日本語</a></li>
+          <li><a href="../ko/?lang=ko" hreflang="ko" lang="ko">한국어</a></li>
+          <li><a href="../zh-cn/?lang=zh-cn" hreflang="zh-CN" lang="zh-CN">简体中文</a></li>
+        </ul>
+        <p class="copy">© 2026 Rafael Mastaleru</p>
+      </div>
+    </footer>
+  </body>
+</html>

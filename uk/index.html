@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="uk" data-root="../" data-page="">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SSL Checker: переглядайте справжній сертифікат і виявляйте перехоплення HTTPS</title>
+    <meta name="description" content="Переглядайте справжній TLS-сертифікат поточного сайту й виявляйте перехоплення, звіряючи його з незалежними нотаріусами." />
+    <link rel="canonical" href="https://sslchecker.plusprivacy.com/uk/" />
+    <link rel="alternate" hreflang="de" href="https://sslchecker.plusprivacy.com/de/" />
+    <link rel="alternate" hreflang="en" href="https://sslchecker.plusprivacy.com/" />
+    <link rel="alternate" hreflang="es" href="https://sslchecker.plusprivacy.com/es/" />
+    <link rel="alternate" hreflang="fr" href="https://sslchecker.plusprivacy.com/fr/" />
+    <link rel="alternate" hreflang="it" href="https://sslchecker.plusprivacy.com/it/" />
+    <link rel="alternate" hreflang="nl" href="https://sslchecker.plusprivacy.com/nl/" />
+    <link rel="alternate" hreflang="pl" href="https://sslchecker.plusprivacy.com/pl/" />
+    <link rel="alternate" hreflang="pt-BR" href="https://sslchecker.plusprivacy.com/pt-br/" />
+    <link rel="alternate" hreflang="ro" href="https://sslchecker.plusprivacy.com/ro/" />
+    <link rel="alternate" hreflang="tr" href="https://sslchecker.plusprivacy.com/tr/" />
+    <link rel="alternate" hreflang="uk" href="https://sslchecker.plusprivacy.com/uk/" />
+    <link rel="alternate" hreflang="ja" href="https://sslchecker.plusprivacy.com/ja/" />
+    <link rel="alternate" hreflang="ko" href="https://sslchecker.plusprivacy.com/ko/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://sslchecker.plusprivacy.com/zh-cn/" />
+    <link rel="alternate" hreflang="x-default" href="https://sslchecker.plusprivacy.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SSL Checker" />
+    <meta property="og:title" content="SSL Checker: переглядайте справжній сертифікат і виявляйте перехоплення HTTPS" />
+    <meta property="og:description" content="Переглядайте справжній TLS-сертифікат поточного сайту й виявляйте перехоплення, звіряючи його з незалежними нотаріусами." />
+    <meta property="og:url" content="https://sslchecker.plusprivacy.com/uk/" />
+    <meta property="og:image" content="https://sslchecker.plusprivacy.com/img/og-uk.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="uk_UA" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f5f7fa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1726" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/png" href="../icon.png" />
+    <link rel="preload" href="../fonts/atkinson-hyperlegible-next-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="../style.css" />
+    <script>
+      // An English page sends a visitor whose browser prefers another of the site's
+      // languages to that language; a language picked in the menu wins from then on.
+      (function () {
+        var html = document.documentElement;
+        var languages = ["de","en","es","fr","it","nl","pl","pt-br","ro","tr","uk","ja","ko","zh-cn"];
+        var page = html.lang.toLowerCase();
+        var url = new URL(location.href);
+        var choice = (url.searchParams.get('lang') || '').toLowerCase();
+        function match(tag) {
+          var base = tag.split('-')[0];
+          if (languages.indexOf(tag) >= 0) return tag;
+          if (base === 'zh') return /-(hant|tw|hk|mo)(-|$)/.test(tag) || languages.indexOf('zh-cn') < 0 ? null : 'zh-cn';
+          if (base === 'pt') return languages.indexOf('pt-br') >= 0 ? 'pt-br' : null;
+          return languages.indexOf(base) >= 0 ? base : null;
+        }
+        try {
+          if (languages.indexOf(choice) >= 0) {
+            localStorage.setItem('lang', choice);
+          } else {
+            choice = localStorage.getItem('lang');
+          }
+        } catch (e) {}
+        if (languages.indexOf(choice) < 0) choice = null;
+        if (!choice && page === 'en') {
+          var tags = navigator.languages || [navigator.language || ''];
+          for (var i = 0; i < tags.length && !choice; i++) choice = match(String(tags[i]).toLowerCase());
+        }
+        if (choice && choice !== page) {
+          var target = html.dataset.root + (choice === 'en' ? '' : choice + '/') + html.dataset.page;
+          location.replace(new URL(target, location.href).href + location.hash);
+        } else if (url.searchParams.has('lang')) {
+          url.searchParams.delete('lang');
+          history.replaceState(null, '', url.pathname + url.search + url.hash);
+        }
+      })();
+      // The language menu closes like other menus: on a click outside it, or on Escape.
+      document.addEventListener('click', function (event) {
+        var menu = document.querySelector('.lang-menu[open]');
+        if (menu && !menu.contains(event.target)) menu.open = false;
+      });
+      document.addEventListener('keydown', function (event) {
+        var menu = document.querySelector('.lang-menu[open]');
+        if (menu && event.key === 'Escape') {
+          menu.open = false;
+          menu.querySelector('summary').focus();
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Перейти до вмісту</a>
+    <header class="site-head wrap">
+      <a class="brand" href="./"><img src="../icon.png" width="32" height="32" alt="" />SSL Checker</a>
+      <nav class="site-nav" aria-label="Основне меню">
+        <a class="optional" href="#interception">Як це працює</a>
+        <a class="optional" href="#privacy">Конфіденційність</a>
+        <a class="optional" href="https://github.com/Mastaleru/ssl-checker">Вихідний код</a>
+        <details class="lang-menu">
+          <summary aria-label="Мова: Українська"><svg class="globe" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6" /><path d="M3 12h18M12 3c2.6 2.5 3.9 5.5 3.9 9s-1.3 6.5-3.9 9c-2.6-2.5-3.9-5.5-3.9-9S9.4 5.5 12 3Z" fill="none" stroke="currentColor" stroke-width="1.6" /></svg><span>Українська</span></summary>
+          <ul style="--rows: 7">
+            <li><a href="../de/?lang=de" hreflang="de" lang="de">Deutsch</a></li>
+            <li><a href="../?lang=en" hreflang="en" lang="en">English</a></li>
+            <li><a href="../es/?lang=es" hreflang="es" lang="es">Español</a></li>
+            <li><a href="../fr/?lang=fr" hreflang="fr" lang="fr">Français</a></li>
+            <li><a href="../it/?lang=it" hreflang="it" lang="it">Italiano</a></li>
+            <li><a href="../nl/?lang=nl" hreflang="nl" lang="nl">Nederlands</a></li>
+            <li><a href="../pl/?lang=pl" hreflang="pl" lang="pl">Polski</a></li>
+            <li><a href="../pt-br/?lang=pt-br" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a></li>
+            <li><a href="../ro/?lang=ro" hreflang="ro" lang="ro">Română</a></li>
+            <li><a href="../tr/?lang=tr" hreflang="tr" lang="tr">Türkçe</a></li>
+            <li><a href="./?lang=uk" hreflang="uk" lang="uk" aria-current="page">Українська</a></li>
+            <li><a href="../ja/?lang=ja" hreflang="ja" lang="ja">日本語</a></li>
+            <li><a href="../ko/?lang=ko" hreflang="ko" lang="ko">한국어</a></li>
+            <li><a href="../zh-cn/?lang=zh-cn" hreflang="zh-CN" lang="zh-CN">简体中文</a></li>
+          </ul>
+        </details>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="hero wrap" aria-labelledby="title">
+        <div>
+          <h1 id="title">Перегляньте сертифікат, який справді отримав ваш браузер</h1>
+          <p class="lead">SSL Checker зчитує сертифікат сайту, відкритого у вашій вкладці, безпосередньо з Chrome і порівнює його з тим, що бачать незалежні нотаріуси з інших місць в інтернеті. Якщо вони відрізняються, щось між вами й сайтом його підміняє.</p>
+          <div class="actions">
+            <a class="button primary" href="https://chromewebstore.google.com/detail/ssl-checker/nbanpljakngdndmmekhogfliinegiapb?hl=uk">Додати в Chrome</a>
+            <a class="button" href="https://github.com/Mastaleru/ssl-checker">Переглянути вихідний код на GitHub</a>
+          </div>
+          <p class="note">Безкоштовно, з відкритим вихідним кодом. Без облікового запису, без аналітики.</p>
+        </div>
+        <figure class="compare" aria-labelledby="compare-caption">
+          <div class="network" role="radiogroup" aria-labelledby="network-label">
+            <span id="network-label">Ваша мережа</span>
+            <span class="seg">
+              <label><input type="radio" name="network" value="ordinary" checked />Звичайна</label>
+              <label><input type="radio" name="network" value="inspected" />Інспектує HTTPS</label>
+            </span>
+          </div>
+          <div class="verdict">
+            <svg class="shield is-good" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6 19.4 5.4v6.1c0 4.5-3.1 8.2-7.4 9.8-4.3-1.6-7.4-5.3-7.4-9.8V5.4L12 2.6Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" /><path d="m8.7 12 2.3 2.3 4.4-4.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg><svg class="shield is-bad" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6 19.4 5.4v6.1c0 4.5-3.1 8.2-7.4 9.8-4.3-1.6-7.4-5.3-7.4-9.8V5.4L12 2.6Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" /><path d="m9.6 9.4 4.8 4.8m0-4.8-4.8 4.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+            <div>
+              <p class="verdict-title"><span class="is-good">Підтверджено 2 зовнішніми джерелами</span><span class="is-bad">З’єднання, імовірно, перехоплено</span></p>
+              <p class="verdict-body"><span class="is-good">Ваш браузер отримує той самий сертифікат, який бачать зовнішні джерела. Ніхто не підміняє його на шляху до вас.</span><span class="is-bad">Ваш браузер отримує сертифікат, виданий Contoso Inspection CA, але зовнішні джерела бачать сертифікат, виданий Example TLS ECC CA 2026.</span></p>
+            </div>
+          </div>
+          <ul class="witnesses">
+            <li class="witness you">
+              <span class="who">Ваш браузер</span>
+              <span class="print"><svg class="bars" viewBox="0 0 158 20" width="316" height="40" aria-hidden="true"><rect x="0" y="0" width="3" height="20" rx="0.8" style="--i: 0; --a: 0.9; --b: 0.95" /><rect x="5" y="0" width="3" height="20" rx="0.8" style="--i: 1; --a: 0.15; --b: 0.85" /><rect x="10" y="0" width="3" height="20" rx="0.8" style="--i: 2; --a: 0.65; --b: 0.7" /><rect x="15" y="0" width="3" height="20" rx="0.8" style="--i: 3; --a: 0.8; --b: 0.75" /><rect x="20" y="0" width="3" height="20" rx="0.8" style="--i: 4; --a: 0.2; --b: 0.85" /><rect x="25" y="0" width="3" height="20" rx="0.8" style="--i: 5; --a: 0.5; --b: 0.85" /><rect x="30" y="0" width="3" height="20" rx="0.8" style="--i: 6; --a: 0.25; --b: 0.65" /><rect x="35" y="0" width="3" height="20" rx="0.8" style="--i: 7; --a: 0.25; --b: 0.45" /><rect x="40" y="0" width="3" height="20" rx="0.8" style="--i: 8; --a: 0.25; --b: 0.65" /><rect x="45" y="0" width="3" height="20" rx="0.8" style="--i: 9; --a: 0.6; --b: 0.55" /><rect x="50" y="0" width="3" height="20" rx="0.8" style="--i: 10; --a: 0.25; --b: 0.7" /><rect x="55" y="0" width="3" height="20" rx="0.8" style="--i: 11; --a: 0.65; --b: 0.55" /><rect x="60" y="0" width="3" height="20" rx="0.8" style="--i: 12; --a: 0.2; --b: 0.35" /><rect x="65" y="0" width="3" height="20" rx="0.8" style="--i: 13; --a: 0.75; --b: 0.85" /><rect x="70" y="0" width="3" height="20" rx="0.8" style="--i: 14; --a: 1; --b: 0.3" /><rect x="75" y="0" width="3" height="20" rx="0.8" style="--i: 15; --a: 0.2; --b: 0.3" /><rect x="80" y="0" width="3" height="20" rx="0.8" style="--i: 16; --a: 0.55; --b: 0.95" /><rect x="85" y="0" width="3" height="20" rx="0.8" style="--i: 17; --a: 0.7; --b: 0.15" /><rect x="90" y="0" width="3" height="20" rx="0.8" style="--i: 18; --a: 0.85; --b: 0.65" /><rect x="95" y="0" width="3" height="20" rx="0.8" style="--i: 19; --a: 0.45; --b: 0.85" /><rect x="100" y="0" width="3" height="20" rx="0.8" style="--i: 20; --a: 0.8; --b: 0.8" /><rect x="105" y="0" width="3" height="20" rx="0.8" style="--i: 21; --a: 0.75; --b: 0.35" /><rect x="110" y="0" width="3" height="20" rx="0.8" style="--i: 22; --a: 0.5; --b: 0.8" /><rect x="115" y="0" width="3" height="20" rx="0.8" style="--i: 23; --a: 1; --b: 0.85" /><rect x="120" y="0" width="3" height="20" rx="0.8" style="--i: 24; --a: 0.9; --b: 0.45" /><rect x="125" y="0" width="3" height="20" rx="0.8" style="--i: 25; --a: 0.65; --b: 0.65" /><rect x="130" y="0" width="3" height="20" rx="0.8" style="--i: 26; --a: 0.75; --b: 0.35" /><rect x="135" y="0" width="3" height="20" rx="0.8" style="--i: 27; --a: 0.7; --b: 0.8" /><rect x="140" y="0" width="3" height="20" rx="0.8" style="--i: 28; --a: 0.6; --b: 0.2" /><rect x="145" y="0" width="3" height="20" rx="0.8" style="--i: 29; --a: 0.95; --b: 0.25" /><rect x="150" y="0" width="3" height="20" rx="0.8" style="--i: 30; --a: 0.2; --b: 0.2" /><rect x="155" y="0" width="3" height="20" rx="0.8" style="--i: 31; --a: 0.9; --b: 0.6" /></svg><span class="hex"><span class="is-good">E501 96C1</span><span class="is-bad">F4CD ACB7</span></span></span>
+            </li>
+            <li class="witness">
+              <span class="who">PlusPrivacy</span>
+              <span class="chip"><span class="is-good">Ідентичний</span><span class="is-bad">Інший сертифікат</span></span>
+              <span class="print"><svg class="bars" viewBox="0 0 158 20" width="316" height="40" aria-hidden="true"><rect x="0" y="2" width="3" height="18" rx="0.8" /><rect x="5" y="17" width="3" height="3" rx="0.8" /><rect x="10" y="7" width="3" height="13" rx="0.8" /><rect x="15" y="4" width="3" height="16" rx="0.8" /><rect x="20" y="16" width="3" height="4" rx="0.8" /><rect x="25" y="10" width="3" height="10" rx="0.8" /><rect x="30" y="15" width="3" height="5" rx="0.8" /><rect x="35" y="15" width="3" height="5" rx="0.8" /><rect x="40" y="15" width="3" height="5" rx="0.8" /><rect x="45" y="8" width="3" height="12" rx="0.8" /><rect x="50" y="15" width="3" height="5" rx="0.8" /><rect x="55" y="7" width="3" height="13" rx="0.8" /><rect x="60" y="16" width="3" height="4" rx="0.8" /><rect x="65" y="5" width="3" height="15" rx="0.8" /><rect x="70" y="0" width="3" height="20" rx="0.8" /><rect x="75" y="16" width="3" height="4" rx="0.8" /><rect x="80" y="9" width="3" height="11" rx="0.8" /><rect x="85" y="6" width="3" height="14" rx="0.8" /><rect x="90" y="3" width="3" height="17" rx="0.8" /><rect x="95" y="11" width="3" height="9" rx="0.8" /><rect x="100" y="4" width="3" height="16" rx="0.8" /><rect x="105" y="5" width="3" height="15" rx="0.8" /><rect x="110" y="10" width="3" height="10" rx="0.8" /><rect x="115" y="0" width="3" height="20" rx="0.8" /><rect x="120" y="2" width="3" height="18" rx="0.8" /><rect x="125" y="7" width="3" height="13" rx="0.8" /><rect x="130" y="5" width="3" height="15" rx="0.8" /><rect x="135" y="6" width="3" height="14" rx="0.8" /><rect x="140" y="8" width="3" height="12" rx="0.8" /><rect x="145" y="1" width="3" height="19" rx="0.8" /><rect x="150" y="16" width="3" height="4" rx="0.8" /><rect x="155" y="2" width="3" height="18" rx="0.8" /></svg><span class="hex">E501 96C1</span></span>
+              <span class="meta">підписана відповідь</span>
+            </li>
+            <li class="witness">
+              <span class="who">Virginia</span>
+              <span class="chip"><span class="is-good">Ідентичний</span><span class="is-bad">Інший сертифікат</span></span>
+              <span class="print"><svg class="bars" viewBox="0 0 158 20" width="316" height="40" aria-hidden="true"><rect x="0" y="2" width="3" height="18" rx="0.8" /><rect x="5" y="17" width="3" height="3" rx="0.8" /><rect x="10" y="7" width="3" height="13" rx="0.8" /><rect x="15" y="4" width="3" height="16" rx="0.8" /><rect x="20" y="16" width="3" height="4" rx="0.8" /><rect x="25" y="10" width="3" height="10" rx="0.8" /><rect x="30" y="15" width="3" height="5" rx="0.8" /><rect x="35" y="15" width="3" height="5" rx="0.8" /><rect x="40" y="15" width="3" height="5" rx="0.8" /><rect x="45" y="8" width="3" height="12" rx="0.8" /><rect x="50" y="15" width="3" height="5" rx="0.8" /><rect x="55" y="7" width="3" height="13" rx="0.8" /><rect x="60" y="16" width="3" height="4" rx="0.8" /><rect x="65" y="5" width="3" height="15" rx="0.8" /><rect x="70" y="0" width="3" height="20" rx="0.8" /><rect x="75" y="16" width="3" height="4" rx="0.8" /><rect x="80" y="9" width="3" height="11" rx="0.8" /><rect x="85" y="6" width="3" height="14" rx="0.8" /><rect x="90" y="3" width="3" height="17" rx="0.8" /><rect x="95" y="11" width="3" height="9" rx="0.8" /><rect x="100" y="4" width="3" height="16" rx="0.8" /><rect x="105" y="5" width="3" height="15" rx="0.8" /><rect x="110" y="10" width="3" height="10" rx="0.8" /><rect x="115" y="0" width="3" height="20" rx="0.8" /><rect x="120" y="2" width="3" height="18" rx="0.8" /><rect x="125" y="7" width="3" height="13" rx="0.8" /><rect x="130" y="5" width="3" height="15" rx="0.8" /><rect x="135" y="6" width="3" height="14" rx="0.8" /><rect x="140" y="8" width="3" height="12" rx="0.8" /><rect x="145" y="1" width="3" height="19" rx="0.8" /><rect x="150" y="16" width="3" height="4" rx="0.8" /><rect x="155" y="2" width="3" height="18" rx="0.8" /></svg><span class="hex">E501 96C1</span></span>
+              <span class="meta">Ashburn, US</span>
+            </li>
+          </ul>
+          <figcaption id="compare-caption">Кожен візерунок зі смужок — це відбиток SHA-256 сертифіката, намальований так само, як його малює розширення: той самий сертифікат завжди дає ті самі смужки.</figcaption>
+        </figure>
+      </section>
+
+      <section class="feature wrap" id="details" aria-labelledby="details-title">
+        <div>
+          <h2 id="details-title">Усі подробиці з’єднання</h2>
+          <p>Те, що Chrome отримав для цієї вкладки, зчитане із самого браузера, а не завантажене ще раз із сервера.</p>
+<ul>
+<li>Імена, на які поширюється сертифікат, видавець, термін дії та кількість днів, що залишилися, рівень перевірки (DV, OV, EV)</li>
+<li>Версія TLS, обмін ключами, зокрема гібридний постквантовий, шифр і Encrypted Client Hello</li>
+<li>Статус Certificate Transparency і підписані позначки часу сертифіката</li>
+<li>Повний ланцюжок, відбитки й усі розширення. Скопіюйте PEM або завантажте ланцюжок.</li>
+</ul>
+        </div>
+        <figure class="shot">
+          <picture>
+            <source srcset="../img/uk/details-dark.webp" media="(prefers-color-scheme: dark)" />
+            <img src="../img/uk/details-light.webp" width="400" height="600" alt="Спливаюче вікно SSL Checker із Certificate Transparency, ланцюжком сертифікатів і відбитками www.example.com." loading="lazy" decoding="async" />
+          </picture>
+        </figure>
+      </section>
+
+      <section class="feature wrap" id="interception" aria-labelledby="interception-title">
+        <div>
+          <h2 id="interception-title">Виявляйте перехоплення HTTPS</h2>
+          <p>Корпоративні проксі-сервери, антивіруси, що сканують HTTPS, і зловмисники в публічних мережах Wi-Fi працюють однаково: вони розшифровують ваш трафік і передають браузеру власний сертифікат. Сторінка виглядає як завжди, і значок замка не зникає.</p>
+<p>SSL Checker запитує нотаріуса PlusPrivacy та доданих вами нотаріусів, який сертифікат той самий сайт показує їм. Вони підключаються з інших місць в інтернеті, в обхід усього, що є у вашій мережі, і відбитки порівнюються:</p>
+<ul>
+<li><strong>Скрізь той самий сертифікат:</strong> підтверджено.</li>
+<li><strong>Ваш інший і його немає в публічних журналах:</strong> імовірно, перехоплено. SSL Checker називає центр сертифікації, що видав сертифікат-замінник, і розпізнає відомі продукти для інспектування HTTPS.</li>
+<li><strong>Джерела суперечать одне одному:</strong> про це так і повідомляється, з поясненням, що може означати кожен випадок.</li>
+</ul>
+        </div>
+        <figure class="shot">
+          <picture>
+            <source srcset="../img/uk/intercepted-dark.webp" media="(prefers-color-scheme: dark)" />
+            <img src="../img/uk/intercepted-light.webp" width="400" height="600" alt="Спливаюче вікно SSL Checker попереджає, що з’єднання, імовірно, перехоплено: браузер отримав сертифікат від Contoso Inspection CA, а нотаріуси — від Example TLS ECC CA 2026." loading="lazy" decoding="async" />
+          </picture>
+        </figure>
+      </section>
+
+      <section class="feature wrap" id="signed" aria-labelledby="signed-title">
+        <div>
+          <h2 id="signed-title">Відповіді, які ніхто на шляху не підробить</h2>
+          <p>Те, що перехоплює ваш трафік, могло б спробувати відповідати й від імені нотаріуса. Але в нього нічого не вийде: нотаріус PlusPrivacy підписує кожну відповідь за допомогою Ed25519, а SSL Checker перевіряє підпис, випадкове число, надіслане з кожним запитом, і сайт, про який він запитував. Підроблену, повторно відтворену чи перенаправлену відповідь буде відхилено, а спливаюче вікно повідомить, що щось її змінило.</p>
+<h3>Запустіть власного нотаріуса</h3>
+<p>Код нотаріуса відкритий: це невеликий сервіс на Node.js для Docker, захищений від лавини запитів і від запитів до приватних мереж. Установіть його на будь-якому сервері, додайте його адресу й ключ у параметрах, і його відповіді перевірятимуться так само.</p>
+<p><a href="https://github.com/Mastaleru/ssl-checker/tree/main/notary">Посібник зі встановлення нотаріуса</a></p>
+        </div>
+        <figure class="shot">
+          <picture>
+            <source srcset="../img/uk/confirmed-dark.webp" media="(prefers-color-scheme: dark)" />
+            <img src="../img/uk/confirmed-light.webp" width="400" height="600" alt="Спливаюче вікно SSL Checker підтверджує сертифікат www.example.com: браузер, нотаріус PlusPrivacy з підписаною відповіддю і нотаріус із Virginia бачать однакові відбитки." loading="lazy" decoding="async" />
+          </picture>
+        </figure>
+      </section>
+
+      <section class="feature wrap" id="debugger" aria-labelledby="debugger-title">
+        <div>
+          <h2 id="debugger-title">Ви вирішуєте, коли працює налагоджувач</h2>
+          <p>У Chrome немає API для розширень, який надавав би сертифікат завантаженої сторінки, тому, поки SSL Checker зчитує сертифікат, він приблизно на секунду під’єднує до вкладки налагоджувач Chrome, а Chrome тим часом показує панель налагодження. У параметрах ви вибираєте, коли це відбувається:</p>
+<ul>
+<li><strong>Щоразу,</strong> коли ви відкриваєте спливаюче вікно</li>
+<li><strong>На вимогу,</strong> одним натисканням у спливаючому вікні</li>
+<li><strong>Ніколи:</strong> запитуються лише нотаріуси</li>
+</ul>
+<h3>Пам’ятає сайти, які ви перевіряєте</h3>
+<p>SSL Checker запам’ятовує, який центр сертифікації використовує кожен сайт, і попереджає вас, коли відомий вам сайт раптом використовує інший, наприклад у новій мережі Wi-Fi. Ця пам’ять зберігається на вашому пристрої, ніколи не використовується в режимі анонімного перегляду, і її можна вимкнути або очистити в параметрах.</p>
+        </div>
+        <figure class="shot wide">
+          <picture>
+            <source srcset="../img/uk/options-dark.webp" media="(prefers-color-scheme: dark)" />
+            <img src="../img/uk/options-light.webp" width="480" height="675" alt="Параметри SSL Checker: зчитування з браузера щоразу, на вимогу або ніколи, а також пам’ять сайтів, у якій збережено 37 сайтів." loading="lazy" decoding="async" />
+          </picture>
+        </figure>
+      </section>
+
+      <section class="privacy wrap" id="privacy" aria-labelledby="privacy-title">
+        <div>
+          <h2 id="privacy-title">Конфіденційність за задумом</h2>
+          <ul class="checks">
+            <li>Нічого не зчитується й не надсилається, доки ви не погодитеся у спливаючому вікні.</li>
+            <li>Ваш пристрій залишають лише ім’я хоста й порт сайту — у тілі HTTPS-запиту до нотаріусів, якими ви користуєтеся.</li>
+            <li>Нотаріус PlusPrivacy не веде записів про перевірені сайти. Його можна вимкнути або запитувати лише нотаріусів, яких ви запустили самі.</li>
+            <li>Без аналітики, без відстеження, без облікового запису. Пам’ять сайтів ніколи не залишає ваш пристрій.</li>
+            <li>Цей сайт теж не має аналітики й нічого не завантажує з інших серверів.</li>
+          </ul>
+          <p><a href="privacy/">Прочитати політику конфіденційності</a></p>
+        </div>
+        <figure class="request">
+          <figcaption>Усе, що нотаріус отримує про сайт, який ви перевіряєте:</figcaption>
+          <pre><code>POST /v1/cert
+Content-Type: application/json
+
+{
+  "host": "www.example.com",
+  "port": 443,
+  "nonce": "Xq3MpTb0vR9kLs2eWn5yZA"
+}</code></pre>
+        </figure>
+      </section>
+    </main>
+
+    <footer class="site-foot">
+      <div class="foot-grid wrap">
+        <div class="foot-brand">
+          <img src="../icon.png" width="32" height="32" alt="" />
+          <div>
+            <strong>SSL Checker</strong>
+            <p>Переглядайте справжній сертифікат. Виявляйте перехоплення.</p>
+          </div>
+        </div>
+        <ul class="foot-links">
+          <li><a href="https://chromewebstore.google.com/detail/ssl-checker/nbanpljakngdndmmekhogfliinegiapb?hl=uk">Chrome Web Store</a></li>
+          <li><a href="privacy/">Політика конфіденційності</a></li>
+          <li><a href="https://github.com/Mastaleru/ssl-checker">Вихідний код</a></li>
+          <li><a href="https://github.com/Mastaleru/ssl-checker/tree/main/notary">Запустити нотаріуса</a></li>
+          <li><a href="mailto:mastaleru.rafael@gmail.com">Контакти</a></li>
+          <li><a href="https://www.linkedin.com/in/mastaleru/">LinkedIn</a></li>
+        </ul>
+        <ul class="foot-languages" aria-label="Мова">
+          <li><a href="../de/?lang=de" hreflang="de" lang="de">Deutsch</a></li>
+          <li><a href="../?lang=en" hreflang="en" lang="en">English</a></li>
+          <li><a href="../es/?lang=es" hreflang="es" lang="es">Español</a></li>
+          <li><a href="../fr/?lang=fr" hreflang="fr" lang="fr">Français</a></li>
+          <li><a href="../it/?lang=it" hreflang="it" lang="it">Italiano</a></li>
+          <li><a href="../nl/?lang=nl" hreflang="nl" lang="nl">Nederlands</a></li>
+          <li><a href="../pl/?lang=pl" hreflang="pl" lang="pl">Polski</a></li>
+          <li><a href="../pt-br/?lang=pt-br" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a></li>
+          <li><a href="../ro/?lang=ro" hreflang="ro" lang="ro">Română</a></li>
+          <li><a href="../tr/?lang=tr" hreflang="tr" lang="tr">Türkçe</a></li>
+          <li><a href="./?lang=uk" hreflang="uk" lang="uk" aria-current="page">Українська</a></li>
+          <li><a href="../ja/?lang=ja" hreflang="ja" lang="ja">日本語</a></li>
+          <li><a href="../ko/?lang=ko" hreflang="ko" lang="ko">한국어</a></li>
+          <li><a href="../zh-cn/?lang=zh-cn" hreflang="zh-CN" lang="zh-CN">简体中文</a></li>
+        </ul>
+        <p class="copy">© 2026 Rafael Mastaleru</p>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="uk" data-root="../../" data-page="privacy/">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Політика конфіденційності SSL Checker</title>
+    <meta name="description" content="Що зчитують, надсилають і зберігають розширення SSL Checker і нотаріус PlusPrivacy." />
+    <link rel="canonical" href="https://sslchecker.plusprivacy.com/uk/privacy/" />
+    <link rel="alternate" hreflang="de" href="https://sslchecker.plusprivacy.com/de/privacy/" />
+    <link rel="alternate" hreflang="en" href="https://sslchecker.plusprivacy.com/privacy/" />
+    <link rel="alternate" hreflang="es" href="https://sslchecker.plusprivacy.com/es/privacy/" />
+    <link rel="alternate" hreflang="fr" href="https://sslchecker.plusprivacy.com/fr/privacy/" />
+    <link rel="alternate" hreflang="it" href="https://sslchecker.plusprivacy.com/it/privacy/" />
+    <link rel="alternate" hreflang="nl" href="https://sslchecker.plusprivacy.com/nl/privacy/" />
+    <link rel="alternate" hreflang="pl" href="https://sslchecker.plusprivacy.com/pl/privacy/" />
+    <link rel="alternate" hreflang="pt-BR" href="https://sslchecker.plusprivacy.com/pt-br/privacy/" />
+    <link rel="alternate" hreflang="ro" href="https://sslchecker.plusprivacy.com/ro/privacy/" />
+    <link rel="alternate" hreflang="tr" href="https://sslchecker.plusprivacy.com/tr/privacy/" />
+    <link rel="alternate" hreflang="uk" href="https://sslchecker.plusprivacy.com/uk/privacy/" />
+    <link rel="alternate" hreflang="ja" href="https://sslchecker.plusprivacy.com/ja/privacy/" />
+    <link rel="alternate" hreflang="ko" href="https://sslchecker.plusprivacy.com/ko/privacy/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://sslchecker.plusprivacy.com/zh-cn/privacy/" />
+    <link rel="alternate" hreflang="x-default" href="https://sslchecker.plusprivacy.com/privacy/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SSL Checker" />
+    <meta property="og:title" content="Політика конфіденційності SSL Checker" />
+    <meta property="og:description" content="Що зчитують, надсилають і зберігають розширення SSL Checker і нотаріус PlusPrivacy." />
+    <meta property="og:url" content="https://sslchecker.plusprivacy.com/uk/privacy/" />
+    <meta property="og:image" content="https://sslchecker.plusprivacy.com/img/og-uk.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="uk_UA" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f5f7fa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1726" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/png" href="../../icon.png" />
+    <link rel="preload" href="../../fonts/atkinson-hyperlegible-next-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="../../style.css" />
+    <script>
+      // An English page sends a visitor whose browser prefers another of the site's
+      // languages to that language; a language picked in the menu wins from then on.
+      (function () {
+        var html = document.documentElement;
+        var languages = ["de","en","es","fr","it","nl","pl","pt-br","ro","tr","uk","ja","ko","zh-cn"];
+        var page = html.lang.toLowerCase();
+        var url = new URL(location.href);
+        var choice = (url.searchParams.get('lang') || '').toLowerCase();
+        function match(tag) {
+          var base = tag.split('-')[0];
+          if (languages.indexOf(tag) >= 0) return tag;
+          if (base === 'zh') return /-(hant|tw|hk|mo)(-|$)/.test(tag) || languages.indexOf('zh-cn') < 0 ? null : 'zh-cn';
+          if (base === 'pt') return languages.indexOf('pt-br') >= 0 ? 'pt-br' : null;
+          return languages.indexOf(base) >= 0 ? base : null;
+        }
+        try {
+          if (languages.indexOf(choice) >= 0) {
+            localStorage.setItem('lang', choice);
+          } else {
+            choice = localStorage.getItem('lang');
+          }
+        } catch (e) {}
+        if (languages.indexOf(choice) < 0) choice = null;
+        if (!choice && page === 'en') {
+          var tags = navigator.languages || [navigator.language || ''];
+          for (var i = 0; i < tags.length && !choice; i++) choice = match(String(tags[i]).toLowerCase());
+        }
+        if (choice && choice !== page) {
+          var target = html.dataset.root + (choice === 'en' ? '' : choice + '/') + html.dataset.page;
+          location.replace(new URL(target, location.href).href + location.hash);
+        } else if (url.searchParams.has('lang')) {
+          url.searchParams.delete('lang');
+          history.replaceState(null, '', url.pathname + url.search + url.hash);
+        }
+      })();
+      // The language menu closes like other menus: on a click outside it, or on Escape.
+      document.addEventListener('click', function (event) {
+        var menu = document.querySelector('.lang-menu[open]');
+        if (menu && !menu.contains(event.target)) menu.open = false;
+      });
+      document.addEventListener('keydown', function (event) {
+        var menu = document.querySelector('.lang-menu[open]');
+        if (menu && event.key === 'Escape') {
+          menu.open = false;
+          menu.querySelector('summary').focus();
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Перейти до вмісту</a>
+    <header class="site-head wrap">
+      <a class="brand" href="../"><img src="../../icon.png" width="32" height="32" alt="" />SSL Checker</a>
+      <nav class="site-nav" aria-label="Основне меню">
+        <a class="optional" href="../#interception">Як це працює</a>
+        <a class="optional" href="../#privacy">Конфіденційність</a>
+        <a class="optional" href="https://github.com/Mastaleru/ssl-checker">Вихідний код</a>
+        <details class="lang-menu">
+          <summary aria-label="Мова: Українська"><svg class="globe" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6" /><path d="M3 12h18M12 3c2.6 2.5 3.9 5.5 3.9 9s-1.3 6.5-3.9 9c-2.6-2.5-3.9-5.5-3.9-9S9.4 5.5 12 3Z" fill="none" stroke="currentColor" stroke-width="1.6" /></svg><span>Українська</span></summary>
+          <ul style="--rows: 7">
+            <li><a href="../../de/privacy/?lang=de" hreflang="de" lang="de">Deutsch</a></li>
+            <li><a href="../../privacy/?lang=en" hreflang="en" lang="en">English</a></li>
+            <li><a href="../../es/privacy/?lang=es" hreflang="es" lang="es">Español</a></li>
+            <li><a href="../../fr/privacy/?lang=fr" hreflang="fr" lang="fr">Français</a></li>
+            <li><a href="../../it/privacy/?lang=it" hreflang="it" lang="it">Italiano</a></li>
+            <li><a href="../../nl/privacy/?lang=nl" hreflang="nl" lang="nl">Nederlands</a></li>
+            <li><a href="../../pl/privacy/?lang=pl" hreflang="pl" lang="pl">Polski</a></li>
+            <li><a href="../../pt-br/privacy/?lang=pt-br" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a></li>
+            <li><a href="../../ro/privacy/?lang=ro" hreflang="ro" lang="ro">Română</a></li>
+            <li><a href="../../tr/privacy/?lang=tr" hreflang="tr" lang="tr">Türkçe</a></li>
+            <li><a href="./?lang=uk" hreflang="uk" lang="uk" aria-current="page">Українська</a></li>
+            <li><a href="../../ja/privacy/?lang=ja" hreflang="ja" lang="ja">日本語</a></li>
+            <li><a href="../../ko/privacy/?lang=ko" hreflang="ko" lang="ko">한국어</a></li>
+            <li><a href="../../zh-cn/privacy/?lang=zh-cn" hreflang="zh-CN" lang="zh-CN">简体中文</a></li>
+          </ul>
+        </details>
+      </nav>
+    </header>
+    <main id="main" class="prose wrap">
+      <h1>Політика конфіденційності</h1>
+      <p class="updated">Останнє оновлення: 30 жовтня 2026 р.</p>
+      <p class="translation-note">Ця сторінка — переклад. Якщо він відрізняється від англійської версії, діє англійська версія.</p>
+      <p>SSL Checker — це розширення для браузера, яке показує TLS-сертифікат сайту у вашій активній вкладці й порівнює його з тим, що бачать сервери-нотаріуси з інших місць в інтернеті.</p>
+      <p><strong>Що зчитує розширення.</strong> Лише коли ви відкриваєте його спливаюче вікно і лише після того, як ви там на це погодилися: адресу активної вкладки (щоб знати, який сайт перевіряти) і, якщо ввімкнено зчитування з браузера, ланцюжок сертифікатів і параметри з’єднання цієї вкладки, зчитані через інтерфейс налагоджувача Chrome. Воно не зчитує вміст сторінок, файли cookie, паролі, дані форм, інші вкладки чи вашу історію веб-перегляду.</p>
+      <p><strong>Що залишає ваш пристрій.</strong> Нічого, доки ви не погодитеся. Після цього, коли ви перевіряєте сайт, його ім’я хоста й порт надсилаються нотаріусу PlusPrivacy (<code>notary.plusprivacy.com</code>), яким керує розробник SSL Checker, якщо ви його не вимкнули, а також серверам-нотаріусам, які ви додали в параметрах, разом із токеном доступу, який ви ввели для сервера, якщо такий є. Кожен запит також містить випадкове число, яке використовується лише для того, щоб перевірити, що відповідь створено саме на цей запит. Нічого іншого розробнику не надсилається. Немає ні аналітики, ні відстеження, ні реклами, ні облікового запису.</p>
+      <p><strong>Нотаріус PlusPrivacy.</strong> Він використовує ім’я хоста й порт лише для того, щоб підключитися до цього сайту й повернути сертифікат, який надає сайт. Він нічого не записує на диск і не веде записів про перевірені сайти. У пам’яті він зберігає кожну відповідь протягом 60 секунд, щоб не звертатися до сайту знову на кожен запит, і рахує запити з кожної мережевої адреси, щоб запобігати зловживанням; адресу, з якої ним зловживають, блокують на строк до 24 годин, і вона з’являється в його журналі. Усі запити до нього зашифровано (HTTPS), а ім’я сайту передається в тілі запиту, ніколи в його адресі. Він підписує кожну відповідь, щоб розширення могло переконатися, що її не змінили на шляху.</p>
+      <p><strong>Що зберігається.</strong> Ваша згода й ваші налаштування (нотаріус PlusPrivacy увімкнено чи вимкнено, режим зчитування, адреси нотаріусів, токени й ключі, час очікування) зберігаються за допомогою <code>chrome.storage.local</code> на вашому пристрої. Результат останньої перевірки для кожної вкладки зберігається за допомогою <code>chrome.storage.session</code> і видаляється, коли ви закриваєте вкладку або браузер. Якщо пам’ять сайтів увімкнено (так налаштовано за умовчанням, коли сертифікат зчитується з браузера), ім’я хоста кожного сайту, який ви перевіряєте, і центр сертифікації, який він використав (назва, відбитки ключа, дати й кількість перевірок), також зберігаються за допомогою <code>chrome.storage.local</code>, щоб SSL Checker міг попередити вас, коли сайт раптом надасть сертифікат іншого центру сертифікації. З вікон у режимі анонімного перегляду нічого не записується. Ці дані ніколи не залишають ваш пристрій; ви можете вимкнути пам’ять або видалити її в параметрах, а сайти, яких не було видно 400 днів, видаляються автоматично.</p>
+      <p><strong>Треті сторони.</strong> Серверами-нотаріусами, які ви додаєте, керуєте ви або той, кого ви оберете; до них застосовуються їхні власні політики. Використання SSL Checker даних, які він обробляє, відповідає Правилам щодо даних користувачів Chrome Web Store, зокрема вимогам щодо обмеженого використання.</p>
+      <p><strong>Контакти.</strong> <a href="mailto:mastaleru.rafael@gmail.com">mastaleru.rafael@gmail.com</a> · <a href="https://www.linkedin.com/in/mastaleru/">LinkedIn</a></p>
+    </main>
+
+    <footer class="site-foot">
+      <div class="foot-grid wrap">
+        <div class="foot-brand">
+          <img src="../../icon.png" width="32" height="32" alt="" />
+          <div>
+            <strong>SSL Checker</strong>
+            <p>Переглядайте справжній сертифікат. Виявляйте перехоплення.</p>
+          </div>
+        </div>
+        <ul class="foot-links">
+          <li><a href="https://chromewebstore.google.com/detail/ssl-checker/nbanpljakngdndmmekhogfliinegiapb?hl=uk">Chrome Web Store</a></li>
+          <li><a href="./">Політика конфіденційності</a></li>
+          <li><a href="https://github.com/Mastaleru/ssl-checker">Вихідний код</a></li>
+          <li><a href="https://github.com/Mastaleru/ssl-checker/tree/main/notary">Запустити нотаріуса</a></li>
+          <li><a href="mailto:mastaleru.rafael@gmail.com">Контакти</a></li>
+          <li><a href="https://www.linkedin.com/in/mastaleru/">LinkedIn</a></li>
+        </ul>
+        <ul class="foot-languages" aria-label="Мова">
+          <li><a href="../../de/privacy/?lang=de" hreflang="de" lang="de">Deutsch</a></li>
+          <li><a href="../../privacy/?lang=en" hreflang="en" lang="en">English</a></li>
+          <li><a href="../../es/privacy/?lang=es" hreflang="es" lang="es">Español</a></li>
+          <li><a href="../../fr/privacy/?lang=fr" hreflang="fr" lang="fr">Français</a></li>
+          <li><a href="../../it/privacy/?lang=it" hreflang="it" lang="it">Italiano</a></li>
+          <li><a href="../../nl/privacy/?lang=nl" hreflang="nl" lang="nl">Nederlands</a></li>
+          <li><a href="../../pl/privacy/?lang=pl" hreflang="pl" lang="pl">Polski</a></li>
+          <li><a href="../../pt-br/privacy/?lang=pt-br" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a></li>
+          <li><a href="../../ro/privacy/?lang=ro" hreflang="ro" lang="ro">Română</a></li>
+          <li><a href="../../tr/privacy/?lang=tr" hreflang="tr" lang="tr">Türkçe</a></li>
+          <li><a href="./?lang=uk" hreflang="uk" lang="uk" aria-current="page">Українська</a></li>
+          <li><a href="../../ja/privacy/?lang=ja" hreflang="ja" lang="ja">日本語</a></li>
+          <li><a href="../../ko/privacy/?lang=ko" hreflang="ko" lang="ko">한국어</a></li>
+          <li><a href="../../zh-cn/privacy/?lang=zh-cn" hreflang="zh-CN" lang="zh-CN">简体中文</a></li>
+        </ul>
+        <p class="copy">© 2026 Rafael Mastaleru</p>
+      </div>
+    </footer>
+  </body>
+</html>
